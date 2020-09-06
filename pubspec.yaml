@@ -21,6 +21,11 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  clay_containers: ^0.2.2
+  flutter_bloc: ^6.0.5
+  equatable: ^1.2.4
+  http: ^0.12.2
+
   flutter:
     sdk: flutter
 
