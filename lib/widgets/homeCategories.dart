@@ -53,7 +53,9 @@ class _HomeCategoriesState extends State<HomeCategories> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, "/room_search");
+                          var departName = homeItem.name.toLowerCase();
+                          Navigator.pushNamed(context, "/${departName}_search",
+                              arguments: homeItem.id);
                         },
                         child: ClayContainer(
                           height: 80,

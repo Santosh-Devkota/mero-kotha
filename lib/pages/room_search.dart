@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mero_kotha/conf.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
+import 'package:mero_kotha/widgets/imageSlider.dart';
 
 class RoomSearch extends StatefulWidget {
+  final departmentId;
+  RoomSearch(this.departmentId);
   @override
   _RoomSearchState createState() => _RoomSearchState();
 }
@@ -36,7 +39,7 @@ class _RoomSearchState extends State<RoomSearch> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ImageSlider(),
+                    ImageSlider(widget.departmentId),
                   ],
                 ),
               )

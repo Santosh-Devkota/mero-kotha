@@ -2,6 +2,7 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mero_kotha/Bloc/home_depart_bloc.dart';
+import 'package:mero_kotha/Bloc/room_slider_bloc.dart';
 import 'package:mero_kotha/widgets/homeCategories.dart';
 import 'package:mero_kotha/widgets/neocontainer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +12,11 @@ void main() => runApp(MultiBlocProvider(
         providers: [
           BlocProvider<HomeDepartmentBloc>(
               create: (BuildContext context) =>
-                  HomeDepartmentBloc(DepartmentInitialState()))
+                  HomeDepartmentBloc(DepartmentInitialState())),
+          BlocProvider<RoomSliderBloc>(
+            create: (BuildContext context) =>
+                RoomSliderBloc(SliderInitialState()),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -111,7 +116,9 @@ class HomeScreen extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, "/login_signup");
+                },
                 child: ClayContainer(
                   child: FlatButton.icon(
                     onPressed: null,
