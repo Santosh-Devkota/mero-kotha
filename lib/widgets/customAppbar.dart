@@ -3,11 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:mero_kotha/conf.dart';
 
 
-class MyAppbar extends StatelessWidget implements PreferredSizeWidget {
+class MyAppbar extends StatefulWidget implements PreferredSizeWidget {
+  final scaffoldKey;
+
   @override
   final Size preferredSize;
 
-  MyAppbar({this.preferredSize});
+  MyAppbar({this.preferredSize, this.scaffoldKey});
+
+  @override
+  _MyAppbarState createState() => _MyAppbarState();
+}
+
+class _MyAppbarState extends State<MyAppbar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,7 +73,9 @@ class MyAppbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    (widget.scaffoldKey).currentState.openDrawer();
+                  },
                   child: Card(
                     margin: EdgeInsets.only(right: 10),
                     elevation: 5,

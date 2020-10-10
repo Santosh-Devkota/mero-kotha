@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
+import 'package:mero_kotha/widgets/customDrawer.dart';
 
 import '../conf.dart';
 
@@ -16,6 +17,7 @@ class LoginSigninPage extends StatefulWidget {
 }
 
 class _LoginSigninPageState extends State<LoginSigninPage> {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -27,6 +29,7 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
         statusBarColor: backgroundColor,
       ),
       child: Scaffold(
+<<<<<<< HEAD
         appBar: MyAppbar(preferredSize: Size.fromHeight(60.0)),
         body: SingleChildScrollView(
           child: Form(
@@ -41,6 +44,44 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                     width: deviceSize.width,
                     fit: BoxFit.fitWidth,
                     alignment: Alignment.topCenter,
+=======
+        drawer: CustomDrawer(),
+        key: _key,
+        appBar: MyAppbar(
+          preferredSize: Size.fromHeight(60.0),
+          scaffoldKey: _key,
+        ),
+        body: Form(
+          key: _formKey,
+          child: Container(
+            height: deviceSize.height,
+            color: baseColor,
+            child: Column(
+              children: [
+                Image.asset(
+                  "assets/icons/illustration.png",
+                  width: deviceSize.width,
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.topCenter,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  width: 300.0,
+                  child: TextFormField(
+                    cursorColor: Colors.black,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: new InputDecoration(
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.only(
+                            left: 15, bottom: 11, top: 11, right: 15),
+                        hintText: "Enter your Email"),
+>>>>>>> 3a9c61f68f7c29ee50085887077515767f8b0794
                   ),
                   Container(
                     decoration: BoxDecoration(
