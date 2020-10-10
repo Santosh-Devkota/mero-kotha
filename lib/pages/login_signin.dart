@@ -2,6 +2,7 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
+import 'package:mero_kotha/widgets/customDrawer.dart';
 
 import '../conf.dart';
 
@@ -11,6 +12,7 @@ class LoginSigninPage extends StatefulWidget {
 }
 
 class _LoginSigninPageState extends State<LoginSigninPage> {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,12 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
         statusBarColor: backgroundColor,
       ),
       child: Scaffold(
-        appBar: MyAppbar(preferredSize: Size.fromHeight(60.0)),
+        drawer: CustomDrawer(),
+        key: _key,
+        appBar: MyAppbar(
+          preferredSize: Size.fromHeight(60.0),
+          scaffoldKey: _key,
+        ),
         body: Form(
           key: _formKey,
           child: Container(

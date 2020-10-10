@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mero_kotha/pages/login_signin.dart';
 import 'package:mero_kotha/pages/room_search.dart';
+import './app_icons.dart';
 
 import 'main.dart';
 
@@ -25,6 +26,28 @@ class RouteGenerator {
   }
 }
 
+List<Map<String, dynamic>> drawerCategory = [
+  {
+    "title": "My Rent",
+    "icon": Icon(IconData(57360, fontFamily: 'MaterialIcons')),
+  },
+  {
+    "title": "Home",
+    "icon": Icon(Icons.home),
+  },
+  {
+    "title": "Our Story",
+    "icon": Icon(Icons.pages),
+  },
+  {"title": "Contact Us", "icon": Icon(Icons.phone_in_talk)},
+  {
+    "title": "Login",
+    "icon": Icon(
+      AppIcons.login,
+      size: 20,
+    ),
+  },
+];
 // Color baseColor = Color(0xFFECF0F3);
 Color baseColor = Color(0xFFECF0F3);
 Color backgroundColor = Color(0xFF193566);
