@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mero_kotha/Bloc/home_depart_bloc.dart';
 import 'package:mero_kotha/Bloc/room_slider_bloc.dart';
+import 'package:mero_kotha/widgets/customDrawer.dart';
 import 'package:mero_kotha/widgets/homeCategories.dart';
 import 'package:mero_kotha/widgets/neocontainer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,11 +50,20 @@ void main() => runApp(MultiBlocProvider(
           home: HomeScreen(),
         )));
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _key,
+        drawer: CustomDrawer(),
+        // endDrawer: CustomDrawer(),
         backgroundColor: baseColor,
         // appBar: PreferredSize(
         //   preferredSize: Size.fromHeight(56),
@@ -86,14 +96,17 @@ class HomeScreen extends StatelessWidget {
               child: ClayContainer(
                 height: 50,
                 width: 50,
-                curveType: CurveType.convex,
+                //curveType: CurveType.convex,
+                depth: 100,
                 child: IconButton(
                   icon: Icon(Icons.menu),
-                  iconSize: 30.0,
-                  onPressed: () {},
+                  iconSize: 35.0,
+                  onPressed: () {
+                    _key.currentState.openDrawer();
+                  },
                 ),
                 //  color: baseColor,
-                borderRadius: 20,
+                borderRadius: 15,
                 color: baseColor,
               ),
             ),
