@@ -1,10 +1,10 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/Bloc/home_depart_bloc.dart';
 import 'package:mero_kotha/Bloc/room_slider_bloc.dart';
 import 'package:mero_kotha/widgets/homeCategories.dart';
-import 'package:mero_kotha/widgets/neocontainer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'conf.dart';
 
@@ -17,20 +17,13 @@ void main() => runApp(MultiBlocProvider(
             create: (BuildContext context) =>
                 RoomSliderBloc(SliderInitialState()),
           ),
+          BlocProvider<AuthBloc>(create: (_)=>AuthBloc(AuthNotLoggedInState()),)        
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.generateRoute,
           theme: ThemeData(
             primaryColor: Color(0xFF193566),
-            // primaryIconTheme: IconThemeData(
-            //   color: backgroundColor,
-            //   size: 30,
-            // ),
-            // accentIconTheme: IconThemeData(
-            //   color: backgroundColor,
-            //   size: 30,
-            // ),
             appBarTheme: AppBarTheme(
               iconTheme: IconThemeData(
                 color: backgroundColor,

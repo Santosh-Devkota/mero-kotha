@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
 
 import '../conf.dart';
@@ -13,6 +17,8 @@ class LoginSigninPage extends StatefulWidget {
 
 class _LoginSigninPageState extends State<LoginSigninPage> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -44,6 +50,7 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                     width: 300.0,
                     child: TextFormField(
                       cursorColor: Colors.black,
+                      controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                           focusedBorder: InputBorder.none,
@@ -66,7 +73,8 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                     width: 300.0,
                     child: TextFormField(
                       cursorColor: Colors.black,
-                      keyboardType: TextInputType.emailAddress,
+                      controller: _passwordController,
+                      obscureText: true,
                       decoration: new InputDecoration(
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -80,23 +88,45 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: ClayContainer(
-                      height: 50,
-                      width: 300,
-                      curveType: CurveType.none,
-                      color: baseColor,
-                      child: Center(
-                        child: Text("Login",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                                    fontSize: 25, fontWeight: FontWeight.bold)),
-                      ),
-                      borderRadius: 10.0,
-                    ),
+                  BlocConsumer<AuthBloc,AuthStates>(
+                   listener: (context,state){
+                     Scaffold.of(context).hideCurrentSnackBar();
+                     if(state is AuthTryingState){
+                       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Trying.."),));
+                     }
+                     else if(state is AuthLoggedInState){
+                       Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.email),backgroundColor: Colors.green,));
+                     }
+                     else if(state is AuthFailedState){
+                       Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage),backgroundColor: Colors.redAccent,));
+                     }
+                   },
+                    builder: (context, state) {
+                      return InkWell(
+                        onTap: () async {
+                          if (_formKey.currentState.validate()) {
+                            BlocProvider.of<AuthBloc>(context).add(AuthLoginEvent(
+                                email: _emailController.text,
+                                password: _passwordController.text));
+                          }
+                        },
+                        child: ClayContainer(
+                          height: 50,
+                          width: 300,
+                          curveType: CurveType.none,
+                          color: baseColor,
+                          child: Center(
+                            child: Text("Login",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .copyWith(
+                                        fontSize: 25, fontWeight: FontWeight.bold)),
+                          ),
+                          borderRadius: 10.0,
+                        ),
+                      );
+                    }
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
