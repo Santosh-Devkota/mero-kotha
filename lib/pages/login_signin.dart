@@ -29,14 +29,14 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
         statusBarColor: backgroundColor,
       ),
       child: Scaffold(
-        drawer: CustomDrawer(),
-        key: _key,
-        appBar: MyAppbar(
-          preferredSize: Size.fromHeight(60.0),
-          scaffoldKey: _key,
-        ),
-        body: SingleChildScrollView(
-          child: Form(
+          drawer: CustomDrawer(),
+          key: _key,
+          appBar: MyAppbar(
+            preferredSize: Size.fromHeight(60.0),
+            scaffoldKey: _key,
+          ),
+          body: SingleChildScrollView(
+              child: Form(
             key: _formKey,
             child: Container(
               height: deviceSize.height,
@@ -144,7 +144,9 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("/register");
+                        },
                         child: Text(
                           "Register",
                           style: Theme.of(context)
@@ -176,8 +178,8 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                         .textTheme
                         .bodyText1
                         .copyWith(fontSize: 18),
-
                   ),
+
                  
                 GestureDetector(
                   onTap: () async {
@@ -228,34 +230,47 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                       border: Border.all(
                         width: 1,
                         color: backgroundColor,
+
                       ),
                     ),
-                    padding: EdgeInsets.all(8.0),
-                    width: 300,
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset(
-                          "assets/icons/google_logo.png",
-                          height: 30,
-                          width: 30,
-                          fit: BoxFit.fill,
-                        ),
-                        Text("Continue with google",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(fontSize: 20))
-                      ],
-                    ),
+                  )),
+                  SizedBox(
+                    height: 20,
                   ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: backgroundColor,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(8.0),
+                      width: 300,
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Image.asset(
+                            "assets/icons/google_logo.png",
+                            height: 30,
+                            width: 30,
+                            fit: BoxFit.fill,
+                          ),
+                          Text("Continue with google",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(fontSize: 20))
+                        ],
+                      ),
+                    ),
+                  )
+                ],
                 )
-              ],
             ),
-          ),
-        ))),
-      );
-  
+          ))),
+    );
   }
 }
