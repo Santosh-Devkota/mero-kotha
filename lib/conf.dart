@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/pages/login_signin.dart';
+import 'package:mero_kotha/pages/register.dart';
 import 'package:mero_kotha/pages/room_search.dart';
-import './app_icons.dart';
 
 import 'main.dart';
 
@@ -12,6 +12,8 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case "/login_signup":
         return MaterialPageRoute(builder: (context) => LoginSigninPage());
+      case "/register":
+        return MaterialPageRoute(builder: (context) => RegisterPage());
       case "/room_search":
         return MaterialPageRoute(
             builder: (context) => RoomSearch(routeSettings.arguments));

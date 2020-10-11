@@ -11,20 +11,20 @@
 ///      fonts:
 ///       - asset: fonts/MyFlutterApp.ttf
 ///
-///
-/// * MFG Labs, Copyright (C) 2012 by Daniel Bruce
-///         Author:    MFG Labs
+/// 
+/// * Entypo, Copyright (C) 2012 by Daniel Bruce
+///         Author:    Daniel Bruce
 ///         License:   SIL (http://scripts.sil.org/OFL)
-///         Homepage:  http://www.mfglabs.com/
+///         Homepage:  http://www.entypo.com
 ///
 import 'package:flutter/widgets.dart';
 
-class AppIcons {
-  AppIcons._();
+class MyFlutterApp {
+  MyFlutterApp._();
 
   static const _kFontFam = 'MyFlutterApp';
   static const _kFontPkg = null;
 
-  static const IconData login =
-      IconData(0xf02c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData logout = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData login_2 = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
