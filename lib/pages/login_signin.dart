@@ -182,10 +182,11 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                 GestureDetector(
                   onTap: () async {
                     final facebookLogin = FacebookLogin();
-                    final result = await facebookLogin.logIn(["email", "name"]);
+                    final result = await facebookLogin.logIn(["email"]);
 
                     switch (result.status) {
                       case FacebookLoginStatus.loggedIn:
+                      BlocProvider.of<AuthBloc>(context).add(AuthFacebookLogin(result.accessToken.token));
                         break;
                       case FacebookLoginStatus.cancelledByUser:
                         break;
