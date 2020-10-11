@@ -25,6 +25,10 @@ class AuthRegisterEvent extends AuthEvents {
 }
 
 class AuthLogoutEvent extends AuthEvents {}
+class AuthFacebookLogin extends AuthEvents{
+  final String accessToken;
+  AuthFacebookLogin(this.accessToken);
+}
 
 class AuthNotLoggedInState extends AuthStates {}
 
@@ -60,6 +64,34 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
           var response=await dio.post("account/login",data: {
             "email":event.email,
             "password":event.password
+          });
+         if(response.statusCode==200){
+           var email=response.data["email"];
+           var name=response.data["name"];
+           var token=response.data["token"];
+           yield AuthLoggedInState(email: email,name: name,token: token
+           
+           );
+         }
+         else if(response.statusCode==401){
+           yield AuthFailedState(response.data["message"]);
+         }
+         else{
+          yield AuthFailedState("Unknown error occured");
+         }
+      }
+      catch(e){}
+    }
+    else if(event is AuthFacebookLogin){
+       yield AuthTryingState();
+      try{
+      Dio dio = Dio(BaseOptions(
+          baseUrl: baseUrl,
+          headers: {"apiKey": apiKey},
+          validateStatus: (status) => true));
+          var response=await dio.post("account/external-login",data: {
+            "provider":"facebook",
+            "token":event.accessToken
           });
          if(response.statusCode==200){
            var email=response.data["email"];

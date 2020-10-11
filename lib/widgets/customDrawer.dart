@@ -14,7 +14,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
     return ClayContainer(
         curveType: CurveType.none,
-        // depth: ,
         emboss: true,
         spread: 0,
         width: (MediaQuery.of(context).size.width) * 0.8,

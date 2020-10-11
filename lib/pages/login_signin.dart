@@ -8,7 +8,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
 import 'package:mero_kotha/widgets/customDrawer.dart';
-
+import 'package:http/http.dart' as http;
 import '../conf.dart';
 
 class LoginSigninPage extends StatefulWidget {
@@ -29,8 +29,12 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
         statusBarColor: backgroundColor,
       ),
       child: Scaffold(
-<<<<<<< HEAD
-        appBar: MyAppbar(preferredSize: Size.fromHeight(60.0)),
+        drawer: CustomDrawer(),
+        key: _key,
+        appBar: MyAppbar(
+          preferredSize: Size.fromHeight(60.0),
+          scaffoldKey: _key,
+        ),
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -44,44 +48,6 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                     width: deviceSize.width,
                     fit: BoxFit.fitWidth,
                     alignment: Alignment.topCenter,
-=======
-        drawer: CustomDrawer(),
-        key: _key,
-        appBar: MyAppbar(
-          preferredSize: Size.fromHeight(60.0),
-          scaffoldKey: _key,
-        ),
-        body: Form(
-          key: _formKey,
-          child: Container(
-            height: deviceSize.height,
-            color: baseColor,
-            child: Column(
-              children: [
-                Image.asset(
-                  "assets/icons/illustration.png",
-                  width: deviceSize.width,
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.topCenter,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  width: 300.0,
-                  child: TextFormField(
-                    cursorColor: Colors.black,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: new InputDecoration(
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                            left: 15, bottom: 11, top: 11, right: 15),
-                        hintText: "Enter your Email"),
->>>>>>> 3a9c61f68f7c29ee50085887077515767f8b0794
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -129,46 +95,51 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  BlocConsumer<AuthBloc,AuthStates>(
-                   listener: (context,state){
-                     Scaffold.of(context).hideCurrentSnackBar();
-                     if(state is AuthTryingState){
-                       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Trying.."),));
-                     }
-                     else if(state is AuthLoggedInState){
-                       Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.email),backgroundColor: Colors.green,));
-                     }
-                     else if(state is AuthFailedState){
-                       Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage),backgroundColor: Colors.redAccent,));
-                     }
-                   },
-                    builder: (context, state) {
-                      return InkWell(
-                        onTap: () async {
-                          if (_formKey.currentState.validate()) {
-                            BlocProvider.of<AuthBloc>(context).add(AuthLoginEvent(
-                                email: _emailController.text,
-                                password: _passwordController.text));
-                          }
-                        },
-                        child: ClayContainer(
-                          height: 50,
-                          width: 300,
-                          curveType: CurveType.none,
-                          color: baseColor,
-                          child: Center(
-                            child: Text("Login",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    .copyWith(
-                                        fontSize: 25, fontWeight: FontWeight.bold)),
-                          ),
-                          borderRadius: 10.0,
-                        ),
-                      );
+                  BlocConsumer<AuthBloc, AuthStates>(
+                      listener: (context, state) {
+                    Scaffold.of(context).hideCurrentSnackBar();
+                    if (state is AuthTryingState) {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("Trying.."),
+                      ));
+                    } else if (state is AuthLoggedInState) {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text(state.email),
+                        backgroundColor: Colors.green,
+                      ));
+                    } else if (state is AuthFailedState) {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text(state.errorMessage),
+                        backgroundColor: Colors.redAccent,
+                      ));
                     }
-                  ),
+                  }, builder: (context, state) {
+                    return InkWell(
+                      onTap: () async {
+                        if (_formKey.currentState.validate()) {
+                          BlocProvider.of<AuthBloc>(context).add(AuthLoginEvent(
+                              email: _emailController.text,
+                              password: _passwordController.text));
+                        }
+                      },
+                      child: ClayContainer(
+                        height: 50,
+                        width: 300,
+                        curveType: CurveType.none,
+                        color: baseColor,
+                        child: Center(
+                          child: Text("Login",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold)),
+                        ),
+                        borderRadius: 10.0,
+                      ),
+                    );
+                  }),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -212,11 +183,13 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                   GestureDetector(
                     onTap: () async {
                       final facebookLogin = FacebookLogin();
-                      final result =
-                          await facebookLogin.logIn(["email", "name"]);
-
+                      final result = await facebookLogin.logIn(['email']);
+                      print(result.accessToken.token);
                       switch (result.status) {
+
                         case FacebookLoginStatus.loggedIn:
+                        final token = result.accessToken.token;
+                      BlocProvider.of<AuthBloc>(context).add(AuthFacebookLogin(token));
                           break;
                         case FacebookLoginStatus.cancelledByUser:
                           break;

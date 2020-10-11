@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Your App Name here.</string>
+    <string name="app_name">easykotha</string>
 
     <!-- Replace "000000000000" with your Facebook App ID here. -->
-    <string name="facebook_app_id">780227489204113</string>
+    <string name="facebook_app_id">771912533368250</string>
 
     <!--
       Replace "000000000000" with your Facebook App ID here.
