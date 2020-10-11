@@ -44,7 +44,8 @@ class _MyAppbarState extends State<MyAppbar> {
                 // ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    // Navigator.of(context).pop();
+                    Navigator.popUntil(context, ModalRoute.withName("/"));
                   },
                   child: Card(
                     // clipBehavior: Clip.antiAliasWithSaveLayer,

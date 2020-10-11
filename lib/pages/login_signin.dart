@@ -39,15 +39,113 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
               child: Form(
             key: _formKey,
             child: Container(
-              height: deviceSize.height,
-              color: baseColor,
-              child: Column(
-                children: [
-                  Image.asset(
-                    "assets/icons/illustration.png",
-                    width: deviceSize.width,
+              decoration: new BoxDecoration(
+                color: baseColor,
+                image: new DecorationImage(
+                    image: new AssetImage("assets/icons/illustration.png"),
                     fit: BoxFit.fitWidth,
-                    alignment: Alignment.topCenter,
+                    alignment: Alignment.topCenter),
+              ),
+              height: deviceSize.height,
+              width: deviceSize.width,
+              // color: baseColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Image.asset(
+                  //   "assets/icons/illustration.png",
+                  //   width: deviceSize.width,
+                  //   fit: BoxFit.fitWidth,
+                  //   alignment: Alignment.topCenter,
+                  // ),
+                  GestureDetector(
+                    onTap: () async {
+                      final facebookLogin = FacebookLogin();
+                      final result = await facebookLogin.logIn(["email"]);
+
+                      switch (result.status) {
+                        case FacebookLoginStatus.loggedIn:
+                          break;
+                        case FacebookLoginStatus.cancelledByUser:
+                          break;
+                        case FacebookLoginStatus.error:
+                          break;
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: backgroundColor)),
+                      padding: EdgeInsets.all(8.0),
+                      width: 300,
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Image.asset(
+                            "assets/icons/facebook_logo.png",
+                            height: 30,
+                            width: 30,
+                            fit: BoxFit.fill,
+                          ),
+                          Text("Continue with facebook",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(fontSize: 20))
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: backgroundColor,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(8.0),
+                      width: 300,
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Image.asset(
+                            "assets/icons/google_logo.png",
+                            height: 30,
+                            width: 30,
+                            fit: BoxFit.fill,
+                          ),
+                          Text("Continue with google",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(fontSize: 20))
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Divider(
+                    thickness: 3,
+                    indent: 70,
+                    endIndent: 70,
+                  ),
+                  Text(
+                    "OR",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: 15,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -167,89 +265,6 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                       ),
                     ],
                   ),
-                  Divider(
-                    thickness: 3,
-                    indent: 70,
-                    endIndent: 70,
-                  ),
-                  Text(
-                    "OR",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: 18),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      final facebookLogin = FacebookLogin();
-                      final result = await facebookLogin.logIn(["email"]);
-
-                      switch (result.status) {
-                        case FacebookLoginStatus.loggedIn:
-                          break;
-                        case FacebookLoginStatus.cancelledByUser:
-                          break;
-                        case FacebookLoginStatus.error:
-                          break;
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: backgroundColor)),
-                      padding: EdgeInsets.all(8.0),
-                      width: 300,
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Image.asset(
-                            "assets/icons/facebook_logo.png",
-                            height: 30,
-                            width: 30,
-                            fit: BoxFit.fill,
-                          ),
-                          Text("Continue with facebook",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(fontSize: 20))
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: backgroundColor,
-                        ),
-                      ),
-                      padding: EdgeInsets.all(8.0),
-                      width: 300,
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Image.asset(
-                            "assets/icons/google_logo.png",
-                            height: 30,
-                            width: 30,
-                            fit: BoxFit.fill,
-                          ),
-                          Text("Continue with google",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(fontSize: 20))
-                        ],
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),

@@ -138,6 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ClayContainer(
                     height: 50,
                     width: 300,
+                    depth: 50,
                     curveType: CurveType.none,
                     color: baseColor,
                     child: Center(
