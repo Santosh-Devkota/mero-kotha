@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/pages/login_signin.dart';
 import 'package:mero_kotha/pages/room_search.dart';
 import './app_icons.dart';
@@ -26,32 +28,32 @@ class RouteGenerator {
   }
 }
 
-List<Map<String, dynamic>> drawerCategory = [
-  {
-    "title": "My Rent",
-    "icon": Icon(Icons.person),
-  },
-  {
-    "title": "Home",
-    "icon": Icon(Icons.home),
-  },
-  {
-    "title": "Our Story",
-    "icon": Icon(Icons.pages),
-  },
-  {"title": "Contact Us", "icon": Icon(Icons.phone_in_talk)},
-  {
-    "title": "Login",
-    "icon": Icon(
-      AppIcons.login,
-      size: 20,
-    ),
-  },
-];
+// List<Map<String, dynamic>> drawerCategory = [
+//   {
+//     "title": "My Rent",
+//     "icon": Icon(IconData(57360, fontFamily: 'MaterialIcons')),
+//   },
+//   {
+//     "title": "Home",
+//     "icon": Icon(Icons.home),
+//   },
+//   {
+//     "title": "Our Story",
+//     "icon": Icon(Icons.pages),
+//   },
+//   {"title": "Contact Us", "icon": Icon(Icons.phone_in_talk)},
+//   {
+//     "title": "Logout",
+//     "icon": Icon(
+//       AppIcons.login,
+//       size: 20,
+//     ),
+//   },
+// ];
 // Color baseColor = Color(0xFFECF0F3);
 Color baseColor = Color(0xFFECF0F3);
 Color backgroundColor = Color(0xFF193566);
 
 const apiKey = "53465FDSFf##%#%%";
-const baseUrl = "http://192.168.100.8:8080/";
-const imageUrl = "http://192.168.100.8:8080";
+const baseUrl = "http://45.76.147.177:8080/";
+const imageUrl = "http://45.76.147.177:8080";

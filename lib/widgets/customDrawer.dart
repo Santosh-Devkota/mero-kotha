@@ -12,7 +12,6 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
     return ClayContainer(
         curveType: CurveType.none,
         // depth: ,

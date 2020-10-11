@@ -1,7 +1,5 @@
-import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:mero_kotha/conf.dart';
-import 'package:mero_kotha/widgets/neocontainer.dart';
 
 class MyAppbar extends StatefulWidget implements PreferredSizeWidget {
   final scaffoldKey;
