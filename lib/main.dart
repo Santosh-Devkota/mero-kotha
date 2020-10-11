@@ -18,7 +18,9 @@ void main() => runApp(MultiBlocProvider(
             create: (BuildContext context) =>
                 RoomSliderBloc(SliderInitialState()),
           ),
-          BlocProvider<AuthBloc>(create: (_)=>AuthBloc(AuthNotLoggedInState()),)        
+          BlocProvider<AuthBloc>(
+            create: (_) => AuthBloc(AuthNotLoggedInState()),
+          )
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -89,16 +91,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ClayContainer(
                 height: 50,
                 width: 50,
-                curveType: CurveType.convex,
+                //curveType: CurveType.convex,
+                depth: 100,
                 child: IconButton(
                   icon: Icon(Icons.menu),
-                  iconSize: 30.0,
+                  iconSize: 35.0,
                   onPressed: () {
                     _key.currentState.openDrawer();
                   },
                 ),
                 //  color: baseColor,
-                borderRadius: 20,
+                borderRadius: 15,
                 color: baseColor,
               ),
             ),

@@ -22,6 +22,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         child: Column(
           children: [
             Container(
+              padding: EdgeInsets.all(10),
               width: (MediaQuery.of(context).size.width) * 0.8,
               child: Image.asset(
                 "assets/icons/drawer_logo.png",
