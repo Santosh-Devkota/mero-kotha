@@ -1,6 +1,8 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
 import 'package:mero_kotha/widgets/customDrawer.dart';
 
@@ -52,7 +54,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextFormField(
                       cursorColor: Colors.black,
                       controller: _nameController,
-                      keyboardType: TextInputType.emailAddress,
+                      validator: (name){
+                        return name.length==0?"Name is required":null;
+                      },
+                     
                       decoration: new InputDecoration(
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -75,6 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextFormField(
                       cursorColor: Colors.black,
                       controller: _emailController,
+                      validator: (email)=>email.length==0?"Email is required":null,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                           focusedBorder: InputBorder.none,
@@ -98,6 +104,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextFormField(
                       cursorColor: Colors.black,
                       controller: _passwordController,
+                      validator: (password){
+                        if(password.length>5){
+                          return null;
+                        }
+                        return "Passord must be atleast 6 characters long";
+                      },
                       obscureText: true,
                       decoration: new InputDecoration(
                           focusedBorder: InputBorder.none,
@@ -135,18 +147,51 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  ClayContainer(
-                    height: 50,
-                    width: 300,
-                    curveType: CurveType.none,
-                    color: baseColor,
-                    child: Center(
-                      child: Text("Create",
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              fontSize: 25, fontWeight: FontWeight.bold)),
-                    ),
-                    borderRadius: 10.0,
-                  ),
+                  BlocConsumer<AuthBloc, AuthStates>(
+                      listener: (context, state) {
+                    Scaffold.of(context).hideCurrentSnackBar();
+                    if (state is AuthTryingState) {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("Trying.."),
+                      ));
+                    } else if (state is AuthRegisterSucessState) {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("Register complete"),
+                        backgroundColor: Colors.green,
+                      ));
+                    } else if (state is AuthFailedState) {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text(state.errorMessage),
+                        backgroundColor: Colors.redAccent,
+                      ));
+                    }
+                  }, builder: (context, state) {
+                    return InkWell(
+                      onTap: () {
+                        if(_formKey.currentState.validate()){
+                          BlocProvider.of<AuthBloc>(context).add(AuthRegisterEvent(email: _emailController.text,
+                          password: _passwordController.text,name: _nameController.text
+                          ));
+                        }
+                      },
+                      child: ClayContainer(
+                        height: 50,
+                        width: 300,
+                        curveType: CurveType.none,
+                        color: baseColor,
+                        child: Center(
+                          child: Text("Create",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold)),
+                        ),
+                        borderRadius: 10.0,
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),

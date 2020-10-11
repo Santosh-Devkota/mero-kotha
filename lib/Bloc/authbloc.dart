@@ -38,6 +38,7 @@ class AuthLoggedInState extends AuthStates {
   final String token;
   AuthLoggedInState({this.email, this.name, this.token});
 }
+class AuthRegisterSucessState extends AuthStates{}
 
 class AuthTryingState extends AuthStates {}
 
@@ -100,6 +101,32 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
            yield AuthLoggedInState(email: email,name: name,token: token
            
            );
+         }
+         else if(response.statusCode==401){
+           yield AuthFailedState(response.data["message"]);
+         }
+         else{
+          yield AuthFailedState("Unknown error occured");
+         }
+      }
+      catch(e){}
+    }
+    else if(event is AuthRegisterEvent){
+        yield AuthTryingState();
+      try{
+      Dio dio = Dio(BaseOptions(
+          baseUrl: baseUrl,
+          headers: {"apiKey": apiKey},
+          validateStatus: (status) => true));
+          var response=await dio.post("account/register",data: {
+            "email":event.email,
+            "password":event.password,
+            "name":event.name
+          });
+         if(response.statusCode==201){
+          yield AuthRegisterSucessState();
+           
+           
          }
          else if(response.statusCode==401){
            yield AuthFailedState(response.data["message"]);
