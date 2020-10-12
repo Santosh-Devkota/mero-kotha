@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mero_kotha/Bloc/authbloc.dart';
+import 'package:mero_kotha/pages/contactUsPage.dart';
 import 'package:mero_kotha/pages/errorPage.dart';
 import 'package:mero_kotha/pages/login_signin.dart';
 import 'package:mero_kotha/pages/myRent.dart';
@@ -21,6 +22,8 @@ class RouteGenerator {
             builder: (context) => RoomSearch(routeSettings.arguments));
       case "/myrent":
         return MaterialPageRoute(builder: (context) => MyRentPage());
+      case "/contact_us":
+        return MaterialPageRoute(builder: (context) => ContactUsPage());
       case "/error":
         return MaterialPageRoute(builder: (context) => ErrorPage());
       case "/":

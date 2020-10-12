@@ -22,14 +22,56 @@ class DrawerListTile extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthStates>(
+    return BlocConsumer<AuthBloc, AuthStates>(
+      listener: (ctx, state) {
+        Scaffold.of(ctx).hideCurrentSnackBar();
+        if (state is AuthLoggedOutState) {
+          Navigator.popUntil(ctx, ModalRoute.withName("/"));
+          Scaffold.of(ctx).showSnackBar(SnackBar(
+            content: Text("Logged out successfully"),
+            backgroundColor: Colors.green,
+          ));
+        } else if (state is AuthLogoutTryingState) {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: Center(child: Text("Are you sure to logout?")),
+                    // content: ContactUs(),
+                    actions: <Widget>[
+                      RaisedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Yes",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "No",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ));
+        } else if (state is AuthLogOutFailedState) {
+          Scaffold.of(ctx).showSnackBar(SnackBar(
+            content: Text("An Error Occured!"),
+            backgroundColor: Colors.redAccent,
+          ));
+        }
+      },
       builder: (context, state) {
         if (state is AuthLoggedInState) {
           drawerCategory.add({
             "title": "Logout",
             "icon": Icon(
               MyFlutterApp.logout,
-              size: 20,
+              size: 35,
             ),
           });
           return ListView.builder(
@@ -73,7 +115,9 @@ class DrawerListTile extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                _drawerAction(context, drawerCategory[index]["title"]);
+              },
             ),
           );
         } else {
@@ -126,25 +170,35 @@ class DrawerListTile extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                switch (drawerCategory[index]["title"]) {
-                  case "My Rent":
-                    Navigator.of(context).pushNamed("/myrent");
-                    break;
-                  case "Home":
-                    Navigator.popUntil(context, ModalRoute.withName("/"));
-                    break;
-                  case "Contact Us":
-                    Navigator.of(context).pushNamed("/contact_us");
-                    break;
-                  default:
-                    Navigator.of(context).pushNamed("/error");
-                    break;
-                }
+                _drawerAction(context, drawerCategory[index]["title"]);
               },
             ),
           );
         }
       },
     );
+  }
+
+  void _drawerAction(BuildContext ctx, String drawerTitle) {
+    switch (drawerTitle) {
+      case "My Rent":
+        Navigator.of(ctx).pushNamed("/myrent");
+        break;
+      case "Home":
+        Navigator.popUntil(ctx, ModalRoute.withName("/"));
+        break;
+      case "Contact Us":
+        Navigator.of(ctx).pushNamed("/contact_us");
+        break;
+      case "Login":
+        Navigator.of(ctx).pushNamed("/login_signup");
+        break;
+      case "Logout":
+        BlocProvider.of<AuthBloc>(ctx).add(AuthLogoutEvent());
+        break;
+      default:
+        Navigator.of(ctx).pushNamed("/error");
+        break;
+    }
   }
 }

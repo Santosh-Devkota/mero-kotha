@@ -40,6 +40,12 @@ class AuthLoggedInState extends AuthStates {
   AuthLoggedInState({this.email, this.name, this.token});
 }
 
+class AuthLoggedOutState extends AuthStates {}
+
+class AuthLogoutTryingState extends AuthStates {}
+
+class AuthLogOutFailedState extends AuthStates {}
+
 class AuthRegisterSucessState extends AuthStates {}
 
 class AuthTryingState extends AuthStates {}
@@ -117,6 +123,9 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
           yield AuthFailedState("Unknown error occured");
         }
       } catch (e) {}
+    } else if (event is AuthLogoutEvent) {
+      // yield AuthLoggedOutState();
+      yield AuthLogoutTryingState();
     }
   }
 }
