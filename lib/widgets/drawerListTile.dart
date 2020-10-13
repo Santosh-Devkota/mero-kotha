@@ -27,10 +27,12 @@ class DrawerListTile extends StatelessWidget {
         Scaffold.of(ctx).hideCurrentSnackBar();
         if (state is AuthLoggedOutState) {
           Navigator.popUntil(ctx, ModalRoute.withName("/"));
-          Scaffold.of(ctx).showSnackBar(SnackBar(
-            content: Text("Logged out successfully"),
-            backgroundColor: Colors.green,
-          ));
+          Scaffold.of(ctx).showSnackBar(
+            SnackBar(
+              content: Text("Logged out successfully"),
+              backgroundColor: Colors.green,
+            ),
+          );
         } else if (state is AuthLogoutTryingState) {
           showDialog(
               context: context,
@@ -195,6 +197,7 @@ class DrawerListTile extends StatelessWidget {
         break;
       case "Logout":
         BlocProvider.of<AuthBloc>(ctx).add(AuthLogoutEvent());
+        
         break;
       default:
         Navigator.of(ctx).pushNamed("/error");

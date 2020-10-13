@@ -65,6 +65,8 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
 
                         switch (result.status) {
                           case FacebookLoginStatus.loggedIn:
+                            BlocProvider.of<AuthBloc>(context).add(
+                                AuthFacebookLogin(result.accessToken.token));
                             break;
                           case FacebookLoginStatus.cancelledByUser:
                             break;
