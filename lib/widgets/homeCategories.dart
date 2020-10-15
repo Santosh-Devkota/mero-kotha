@@ -2,10 +2,13 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mero_kotha/Bloc/home_depart_bloc.dart';
+// import 'package:path/path.dart';
 
 import '../conf.dart';
 
 class HomeCategories extends StatefulWidget {
+  final String nxtPageRoute;
+  HomeCategories(this.nxtPageRoute);
   @override
   _HomeCategoriesState createState() => _HomeCategoriesState();
 }
@@ -54,8 +57,29 @@ class _HomeCategoriesState extends State<HomeCategories> {
                       GestureDetector(
                         onTap: () {
                           var departName = homeItem.name.toLowerCase();
-                          Navigator.pushNamed(context, "/${departName}_search",
-                              arguments: homeItem.id);
+
+                          //  print(ModalRoute.of(context).settings.name);
+                          // if (ModalRoute.of(context).settings.name ==
+                          //     "/property_selection") {
+                          //   Navigator.pushNamed(
+                          //       context, "/property_description",
+                          //       arguments: homeItem.id);
+                          // } else {}
+                          // widget.clickAction(
+                          //   departmentName: departName,
+                          //   departId: homeItem.id,
+                          //   ctx: context,
+                          // );
+                          if (widget.nxtPageRoute == "/property_search") {
+                            Navigator.pushNamed(
+                                context, "/${departName}_search",
+                                arguments: homeItem.id);
+                          } else if (widget.nxtPageRoute ==
+                              "/property_description") {
+                            Navigator.pushNamed(
+                                context, "/property_description",
+                                arguments: homeItem.name);
+                          }
                         },
                         child: ClayContainer(
                           height: 80,

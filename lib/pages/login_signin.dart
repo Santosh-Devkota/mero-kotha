@@ -208,6 +208,7 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                           content: Text(state.email),
                           backgroundColor: Colors.green,
                         ));
+                        Navigator.of(context).pushNamed("/property_selection");
                       } else if (state is AuthFailedState) {
                         Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text(state.errorMessage),

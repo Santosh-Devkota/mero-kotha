@@ -26,6 +26,7 @@ void main() => runApp(MultiBlocProvider(
           debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.generateRoute,
           theme: ThemeData(
+            // hintColor: backgroundColor,
             primaryColor: Color(0xFF193566),
             appBarTheme: AppBarTheme(
               iconTheme: IconThemeData(
@@ -37,10 +38,16 @@ void main() => runApp(MultiBlocProvider(
               color: backgroundColor,
               size: 30,
             ),
+
             textTheme: TextTheme(
-              bodyText1: GoogleFonts.roboto(
-                  fontSize: 22.0, color: Color(0xFF193566), letterSpacing: 1),
-            ),
+                bodyText1: GoogleFonts.roboto(
+                    fontSize: 22.0, color: Color(0xFF193566), letterSpacing: 1),
+                bodyText2: GoogleFonts.roboto(
+                  fontSize: 20.0,
+                  color: Color(0xFF193566),
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           home: HomeScreen(),
         )));
@@ -51,6 +58,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final String nextRoute = "/property_search";
   GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -58,27 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         key: _key,
         drawer: CustomDrawer(),
-        // endDrawer: CustomDrawer(),
         backgroundColor: baseColor,
-        // appBar: PreferredSize(
-        //   preferredSize: Size.fromHeight(56),
-        //   child: NeoContainer(
-        //     height: 56,
-        //     width: MediaQuery.of(context).size.width,
-        //     curveType: null,
-        //     child: Row(
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       children: [
-        //         IconButton(
-        //           icon: Icon(Icons.menu),
-        //           onPressed: () {},
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ),
         body: Column(
-          // mainAxisAlignment: MainAxisAlignment.space,
           children: [
             Container(
               padding: EdgeInsets.only(
@@ -91,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ClayContainer(
                 height: 50,
                 width: 50,
-                //curveType: CurveType.convex,
                 depth: 100,
                 child: IconButton(
                   icon: Icon(Icons.menu),
@@ -120,33 +108,47 @@ class _HomeScreenState extends State<HomeScreen> {
               emboss: true,
               borderRadius: 15,
             ),
-            HomeCategories(),
+            HomeCategories(nextRoute),
             Align(
               alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, "/login_signup");
-                },
-                child: ClayContainer(
-                  child: FlatButton.icon(
-                    onPressed: null,
-                    icon: Icon(Icons.add, size: 30.0, color: Color(0xFF193566)),
-                    label: Text(
-                      "Add New",
-                      style: GoogleFonts.roboto(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        //color: .white,
-                        color: Color(0xFF193566),
+              child: BlocBuilder<AuthBloc, AuthStates>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () {
+                      if (state is AuthLoggedInState) {
+                        Navigator.pushNamed(context, "/property_selection");
+                      } else {
+                        Navigator.pushNamed(context, "/login_signup");
+                      }
+                    },
+                    child: ClayContainer(
+                      child: FlatButton.icon(
+                        onPressed: null,
+                        icon: Icon(Icons.add,
+                            size: 30.0, color: Color(0xFF193566)),
+                        label: Text(
+                          "Add New",
+                          style: GoogleFonts.roboto(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            //color: .white,
+                            color: Color(0xFF193566),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  void pageAction({String departmentName, String departId, BuildContext ctx}) {
+    Navigator.pushNamed(context, "/${departmentName}_search",
+        arguments: departId);
   }
 }

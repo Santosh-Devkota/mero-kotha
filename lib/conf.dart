@@ -5,6 +5,8 @@ import 'package:mero_kotha/pages/contactUsPage.dart';
 import 'package:mero_kotha/pages/errorPage.dart';
 import 'package:mero_kotha/pages/login_signin.dart';
 import 'package:mero_kotha/pages/myRent.dart';
+import 'package:mero_kotha/pages/propertyDescription.dart';
+import 'package:mero_kotha/pages/propertySelection.dart';
 import 'package:mero_kotha/pages/register.dart';
 import 'package:mero_kotha/pages/room_search.dart';
 
@@ -24,6 +26,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => MyRentPage());
       case "/contact_us":
         return MaterialPageRoute(builder: (context) => ContactUsPage());
+      case "/property_selection":
+        return MaterialPageRoute(builder: (context) => PropertySelectionPage());
+      case "/property_description":
+        return MaterialPageRoute(
+          // settings: routeSettings,
+          builder: (context) => PropertyDescriptionPage(
+            routeSettings.arguments,
+          ),
+        );
       case "/error":
         return MaterialPageRoute(builder: (context) => ErrorPage());
       case "/":
@@ -63,6 +74,14 @@ class RouteGenerator {
 //   },
 // ];
 // Color baseColor = Color(0xFFECF0F3);
+List<Map<String, dynamic>> roomFacilities = [
+  {"title": "wifi", "icon": Icon(Icons.wifi)},
+  {"title": "wifi", "icon": Icon(Icons.wifi)},
+  {"title": "wifi", "icon": Icon(Icons.wifi)},
+  {"title": "wifi", "icon": Icon(Icons.wifi)},
+  {"title": "wifi", "icon": Icon(Icons.wifi)},
+  {"title": "wifi", "icon": Icon(Icons.wifi)}
+];
 Color baseColor = Color(0xFFECF0F3);
 Color backgroundColor = Color(0xFF193566);
 
