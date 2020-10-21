@@ -94,8 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             ClayContainer(
-              height: 130,
-              width: 150,
+              height: 120,
+              width: 140,
               curveType: CurveType.concave,
               color: baseColor,
               child: Center(

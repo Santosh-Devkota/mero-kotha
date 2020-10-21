@@ -84,7 +84,35 @@ List<Map<String, dynamic>> roomFacilities = [
 ];
 Color baseColor = Color(0xFFECF0F3);
 Color backgroundColor = Color(0xFF193566);
-
+double appBarHeight = 60.0;
 const apiKey = "53465FDSFf##%#%%";
 const baseUrl = "http://45.76.147.177:8080/";
 const imageUrl = "http://45.76.147.177:8080";
+
+// child: Container(
+//   decoration: BoxDecoration(
+//     border: Border.all(
+//       width: 1,
+//       color: backgroundColor,
+//     ),
+//   ),
+//   padding: EdgeInsets.all(8.0),
+//   width: 300,
+//   height: 50,
+//   child: Row(
+//     mainAxisAlignment: MainAxisAlignment.spaceAround,
+//     children: [
+//       Image.asset(
+//         "assets/icons/google_logo.png",
+//         height: 30,
+//         width: 30,
+//         fit: BoxFit.fill,
+//       ),
+//       Text("Continue with google",
+//           style: Theme.of(context)
+//               .textTheme
+//               .bodyText1
+//               .copyWith(fontSize: 20))
+//     ],
+//   ),
+// ),

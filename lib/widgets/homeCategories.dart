@@ -1,6 +1,7 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/Bloc/home_depart_bloc.dart';
 // import 'package:path/path.dart';
 
@@ -18,6 +19,7 @@ class _HomeCategoriesState extends State<HomeCategories> {
   void initState() {
     super.initState();
     BlocProvider.of<HomeDepartmentBloc>(context).add(DepartmentLoadEvent());
+    BlocProvider.of<AuthBloc>(context).add(InitializeAuthEvent());
   }
 
   @override

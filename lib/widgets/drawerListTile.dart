@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/my_flutter_app_icons.dart';
-import 'package:mero_kotha/pages/login_signin.dart';
 
 import '../conf.dart';
-//import '../conf.dart';
 
 class DrawerListTile extends StatelessWidget {
-  List<Map<String, dynamic>> drawerCategory = [
+  final drawerCategory = [
     {
       "title": "My Rent",
       "icon": Icon(Icons.person),
@@ -25,46 +23,15 @@ class DrawerListTile extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthStates>(
       listener: (ctx, state) {
         Scaffold.of(ctx).hideCurrentSnackBar();
-        if (state is AuthLoggedOutState) {
+        if (state is AuthNotLoggedInState) {
           Navigator.popUntil(ctx, ModalRoute.withName("/"));
           Scaffold.of(ctx).showSnackBar(
             SnackBar(
               content: Text("Logged out successfully"),
-              backgroundColor: Colors.green,
+              backgroundColor: backgroundColor,
+              duration: const Duration(seconds: 1),
             ),
           );
-        } else if (state is AuthLogoutTryingState) {
-          showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                    title: Center(child: Text("Are you sure to logout?")),
-                    // content: ContactUs(),
-                    actions: <Widget>[
-                      RaisedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Yes",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "No",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ));
-        } else if (state is AuthLogOutFailedState) {
-          Scaffold.of(ctx).showSnackBar(SnackBar(
-            content: Text("An Error Occured!"),
-            backgroundColor: Colors.redAccent,
-          ));
         }
       },
       builder: (context, state) {
@@ -184,20 +151,62 @@ class DrawerListTile extends StatelessWidget {
   void _drawerAction(BuildContext ctx, String drawerTitle) {
     switch (drawerTitle) {
       case "My Rent":
-        Navigator.of(ctx).pushNamed("/myrent");
+        Navigator.of(ctx).popAndPushNamed("/myrent");
         break;
       case "Home":
         Navigator.popUntil(ctx, ModalRoute.withName("/"));
         break;
       case "Contact Us":
-        Navigator.of(ctx).pushNamed("/contact_us");
+        Navigator.of(ctx).popAndPushNamed("/contact_us");
         break;
       case "Login":
-        Navigator.of(ctx).pushNamed("/login_signup");
+        Navigator.of(ctx).popAndPushNamed("/login_signup");
         break;
       case "Logout":
-        BlocProvider.of<AuthBloc>(ctx).add(AuthLogoutEvent());
-        
+        showDialog(
+            context: ctx,
+            builder: (ctx) => AlertDialog(
+                  title: Center(
+                      child: Text("Are you sure to logout?",
+                          style: Theme.of(ctx)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(fontWeight: FontWeight.w600))),
+                  // content: ContactUs(),
+                  actions: <Widget>[
+                    RaisedButton(
+                      clipBehavior: Clip.antiAlias,
+                      padding: EdgeInsets.all(0),
+                      color: Colors.red,
+                      onPressed: () {
+                        BlocProvider.of<AuthBloc>(ctx).add(AuthLogoutEvent());
+                      },
+                      child: Text("Yes",
+                          style: Theme.of(ctx)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.white, fontSize: 20)),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    RaisedButton(
+                      clipBehavior: Clip.antiAlias,
+                      padding: EdgeInsets.all(0),
+                      color: backgroundColor,
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                      },
+                      child: Text(
+                        "No",
+                        style: Theme.of(ctx)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ));
         break;
       default:
         Navigator.of(ctx).pushNamed("/error");

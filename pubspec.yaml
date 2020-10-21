@@ -31,6 +31,7 @@ dependencies:
   carousel_slider: ^2.2.1
   cached_network_image: ^2.3.2+1
   flutter_facebook_login: ^3.0.0
+  flutter_secure_storage: ^3.3.5
 
   flutter:
     sdk: flutter

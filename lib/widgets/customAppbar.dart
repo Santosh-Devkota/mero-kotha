@@ -4,11 +4,17 @@ import 'package:mero_kotha/conf.dart';
 
 class MyAppbar extends StatefulWidget implements PreferredSizeWidget {
   final scaffoldKey;
+  final appbarText;
+  final drawerRoute;
 
   @override
   final Size preferredSize;
 
-  MyAppbar({this.preferredSize, this.scaffoldKey});
+  MyAppbar(
+      {this.preferredSize,
+      this.scaffoldKey,
+      this.appbarText,
+      this.drawerRoute});
 
   @override
   _MyAppbarState createState() => _MyAppbarState();
@@ -28,12 +34,14 @@ class _MyAppbarState extends State<MyAppbar> {
           children: <Widget>[
             InkWell(
               onTap: () {
-                Navigator.popUntil(context, ModalRoute.withName("/"));
+                // Navigator.popUntil(context, ModalRoute.withName("/"));
+                Navigator.pop(context);
               },
               child: Container(
                 margin: EdgeInsets.only(left: 15),
                 child: ClayContainer(
                   borderRadius: 5,
+                  color: baseColor,
                   depth: 200,
                   spread: 2,
                   // height: 35,
@@ -49,14 +57,25 @@ class _MyAppbarState extends State<MyAppbar> {
                 ),
               ),
             ),
-            Container(
-              height: 60.0,
-              width: 60.0,
-              child: Image.asset(
-                "assets/images/brandlogo.png",
-                fit: BoxFit.contain,
-              ),
-            ),
+            widget.appbarText != null
+                ? Container(
+                    height: 60,
+                    child: Center(
+                      child: Text(widget.appbarText,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .copyWith(fontSize: 26)),
+                    ),
+                  )
+                : Container(
+                    height: 60.0,
+                    width: 60.0,
+                    child: Image.asset(
+                      "assets/images/brandlogo.png",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
             InkWell(
               onTap: () {
                 (widget.scaffoldKey).currentState.openDrawer();
@@ -65,6 +84,7 @@ class _MyAppbarState extends State<MyAppbar> {
                 margin: EdgeInsets.only(right: 15),
                 child: ClayContainer(
                   borderRadius: 5,
+                  color: baseColor,
                   depth: 200,
                   spread: 2,
                   // height: 35,
