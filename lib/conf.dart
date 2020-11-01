@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mero_kotha/Bloc/authbloc.dart';
+import 'package:mero_kotha/model/department.dart';
+import 'package:mero_kotha/model/facilities.dart';
 import 'package:mero_kotha/pages/contactUsPage.dart';
 import 'package:mero_kotha/pages/errorPage.dart';
 import 'package:mero_kotha/pages/login_signin.dart';
@@ -89,6 +92,32 @@ const apiKey = "53465FDSFf##%#%%";
 const baseUrl = "http://45.76.147.177:8080/";
 const imageUrl = "http://45.76.147.177:8080";
 
+List<Facilities> listFacilities = [
+  Facilities(
+      name: "Wifi",
+      icon: Icon(Icons.wifi),
+      value: false,
+      departments: ["room", "shoooter", "hostels"]),
+  Facilities(
+      name: "Parking",
+      icon: Icon(Icons.local_parking),
+      value: false,
+      departments: ["room", "hostels"]),
+  Facilities(
+      name: "Bed Rooms",
+      icon: Icon(
+        Icons.branding_watermark,
+      ),
+      value: 0,
+      departments: ["shoooter"]),
+  Facilities(
+      name: "Facing",
+      icon: Icon(Icons.directions),
+      value: ShutterDirection.East,
+      departments: ["shoooter"]),
+];
+
+enum ShutterDirection { East, West }
 // child: Container(
 //   decoration: BoxDecoration(
 //     border: Border.all(

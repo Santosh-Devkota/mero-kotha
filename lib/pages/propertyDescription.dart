@@ -1,21 +1,35 @@
+import 'dart:io';
+
 import 'package:clay_containers/clay_containers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mero_kotha/model/department.dart';
+import 'package:mero_kotha/widgets/boolSelect.dart';
+import 'package:mero_kotha/widgets/numberSelect.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
 import 'package:mero_kotha/widgets/customCheckbox.dart';
 import 'package:mero_kotha/widgets/customDrawer.dart';
 import 'package:mero_kotha/widgets/imageUpload.dart';
+import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
+// import 'package:image_picker/image_picker.dart';
 
 import '../conf.dart';
 
 class PropertyDescriptionPage extends StatelessWidget {
-  final String selectedProperty;
+  final Department selectedProperty;
   PropertyDescriptionPage(this.selectedProperty);
   final _key = GlobalKey();
+  File imageFile;
+  void setPickedFile(File imgFile) {
+    imageFile = imageFile;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final selectedPropertyTitle = selectedProperty.toUpperCase();
+    File imageFile;
+    final selectedPropertyTitle = selectedProperty.name.toUpperCase();
     Size deviceSize = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -44,7 +58,7 @@ class PropertyDescriptionPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildPropertyType(context, selectedPropertyTitle),
-                          ImageUpload(),
+                          ImageUpload(onImageSelected: setPickedFile),
                         ],
                       ),
                       SizedBox(
@@ -330,74 +344,42 @@ class PropertyDescriptionPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 8.0),
           child: Text(
-            "Room Facilities",
+            "${selectedProperty.name} Facilities",
             style: Theme.of(context).textTheme.bodyText2,
           ),
         ),
         ListView.builder(
-            // padding: EdgeInsets.only(bottom: 10),
             padding: EdgeInsets.all(0),
             shrinkWrap: true,
-            // primary: false,
             physics: NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
-            itemCount: roomFacilities.length,
+            itemCount: listFacilities.length,
             itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      CustomCheckbox(),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: ClayContainer(
-                          height: 40,
-                          spread: 3,
-                          depth: 50,
-                          color: baseColor,
-                          borderRadius: 5,
-                          child: Row(
-                            children: [
-                              ClayContainer(
-                                depth: 100,
-                                spread: 1,
-                                borderRadius: 5,
-                                child: Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: Icon(Icons.wifi),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "${roomFacilities[index]["title"]}",
-                              ),
-                              DropdownButton<String>(
-                                  value: "1",
-                                  items: [
-                                    DropdownMenuItem<String>(
-                                      value: "1",
-                                      child: Text("1"),
-                                    ),
-                                    DropdownMenuItem<String>(
-                                      value: "2",
-                                      child: Text("2"),
-                                    ),
-                                    DropdownMenuItem<String>(
-                                      value: "3",
-                                      child: Text("3"),
-                                    ),
-                                  ],
-                                  onChanged: null)
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ));
+              return listFacilities[index]
+                      .departments
+                      .contains(selectedProperty.name.toLowerCase())
+                  ? ConditionalSwitch.single<dynamic>(
+                      context: context,
+                      valueBuilder: (BuildContext context) =>
+                          listFacilities[index].value.runtimeType,
+                      caseBuilders: {
+                        bool: (BuildContext context) => BoolSelect(
+                              index: index,
+                              propertyFacility: listFacilities[index],
+                            ),
+                        ShutterDirection: (BuildContext context) =>
+                            Text('Enum type'),
+                        int: (BuildContext context) =>
+                            NumberSelect(facility: listFacilities[index]),
+                        // "Parking": (BuildContext context) => BoolSelect(
+                        //       index: index,
+                        //       propertyFacility: listFacilities[index],
+                        //     ),
+                      },
+                      fallbackBuilder: (BuildContext context) =>
+                          Text('None of the cases matched!'),
+                    )
+                  : Container();
             })
       ],
     );

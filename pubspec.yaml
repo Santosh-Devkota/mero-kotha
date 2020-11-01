@@ -32,6 +32,10 @@ dependencies:
   cached_network_image: ^2.3.2+1
   flutter_facebook_login: ^3.0.0
   flutter_secure_storage: ^3.3.5
+  flutter_conditional_rendering: ^1.1.1
+  multi_image_picker: ^4.7.14
+  flutter_absolute_path: ^1.0.6
+  permission_handler: ^5.0.1+1
 
   flutter:
     sdk: flutter

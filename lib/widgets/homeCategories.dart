@@ -37,50 +37,24 @@ class _HomeCategoriesState extends State<HomeCategories> {
               childAspectRatio: 1,
             ),
             children: [
-              // Container()
-              // ClayContainer(
-              //   height: 150,
-              //   width: 150,
-              //   curveType: CurveType.none,
-              //   color: baseColor,
-              // ),
-              // ClayContainer(
-              //   height: 150,
-              //   width: 150,
-              //   curveType: CurveType.none,
-              //   color: baseColor,
-              // ),
               ...(state.department).map(
-                (homeItem) => Container(
+                (depart) => Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
                         onTap: () {
-                          var departName = homeItem.name.toLowerCase();
-
-                          //  print(ModalRoute.of(context).settings.name);
-                          // if (ModalRoute.of(context).settings.name ==
-                          //     "/property_selection") {
-                          //   Navigator.pushNamed(
-                          //       context, "/property_description",
-                          //       arguments: homeItem.id);
-                          // } else {}
-                          // widget.clickAction(
-                          //   departmentName: departName,
-                          //   departId: homeItem.id,
-                          //   ctx: context,
-                          // );
+                          var departName = depart.name.toLowerCase();
                           if (widget.nxtPageRoute == "/property_search") {
                             Navigator.pushNamed(
                                 context, "/${departName}_search",
-                                arguments: homeItem.id);
+                                arguments: depart);
                           } else if (widget.nxtPageRoute ==
                               "/property_description") {
                             Navigator.pushNamed(
                                 context, "/property_description",
-                                arguments: homeItem.name);
+                                arguments: depart);
                           }
                         },
                         child: ClayContainer(
@@ -93,7 +67,7 @@ class _HomeCategoriesState extends State<HomeCategories> {
                             // height: 70,
                             alignment: Alignment.center,
                             child: Image.network(
-                              homeItem.icon,
+                              depart.icon,
                               fit: BoxFit.fill,
                               height: 60,
                               width: 60,
@@ -106,7 +80,7 @@ class _HomeCategoriesState extends State<HomeCategories> {
                         height: 10,
                       ),
                       Text(
-                        homeItem.name,
+                        depart.name,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ],

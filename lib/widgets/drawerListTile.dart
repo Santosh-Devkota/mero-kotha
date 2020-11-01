@@ -17,6 +17,7 @@ class DrawerListTile extends StatelessWidget {
       "icon": Icon(Icons.home),
     },
     {"title": "Contact Us", "icon": Icon(Icons.phone_in_talk)},
+    //{"title": "Support", "icon": Icon}
   ];
   @override
   Widget build(BuildContext context) {
