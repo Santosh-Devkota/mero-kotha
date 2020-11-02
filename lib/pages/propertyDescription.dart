@@ -371,10 +371,6 @@ class PropertyDescriptionPage extends StatelessWidget {
                             Text('Enum type'),
                         int: (BuildContext context) =>
                             NumberSelect(facility: listFacilities[index]),
-                        // "Parking": (BuildContext context) => BoolSelect(
-                        //       index: index,
-                        //       propertyFacility: listFacilities[index],
-                        //     ),
                       },
                       fallbackBuilder: (BuildContext context) =>
                           Text('None of the cases matched!'),
