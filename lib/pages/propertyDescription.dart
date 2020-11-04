@@ -1,35 +1,59 @@
 import 'dart:io';
-
 import 'package:clay_containers/clay_containers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mero_kotha/model/department.dart';
 import 'package:mero_kotha/widgets/boolSelect.dart';
 import 'package:mero_kotha/widgets/numberSelect.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
-import 'package:mero_kotha/widgets/customCheckbox.dart';
 import 'package:mero_kotha/widgets/customDrawer.dart';
 import 'package:mero_kotha/widgets/imageUpload.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
-// import 'package:image_picker/image_picker.dart';
-
+import 'package:search_map_place/search_map_place.dart';
+// import 'package:search_map_place/search_map_place.dart';
 import '../conf.dart';
 
-class PropertyDescriptionPage extends StatelessWidget {
+class PropertyDescriptionPage extends StatefulWidget {
   final Department selectedProperty;
   PropertyDescriptionPage(this.selectedProperty);
+
+  @override
+  _PropertyDescriptionPageState createState() => _PropertyDescriptionPageState();
+}
+
+class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
   final _key = GlobalKey();
+
   File imageFile;
+  bool _useCurrentLocation=true;
+
   void setPickedFile(File imgFile) {
     imageFile = imageFile;
   }
-
+  LatLng _currentLocation;
+  void initState(){
+    getSetLocation();
+    super.initState();
+  }
+  getSetLocation()async{
+    try{
+      var position=await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best
+      );
+      if(position!=null){
+        setState(() {
+          _currentLocation=LatLng(position.latitude,position.longitude);
+        });
+        print(_currentLocation.longitude);
+      }
+    }catch(e){}
+  }
   @override
   Widget build(BuildContext context) {
     File imageFile;
-    final selectedPropertyTitle = selectedProperty.name.toUpperCase();
+    final selectedPropertyTitle = widget.selectedProperty.name.toUpperCase();
     Size deviceSize = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -245,7 +269,41 @@ class PropertyDescriptionPage extends StatelessWidget {
                 "Add Location",
                 style: Theme.of(context).textTheme.bodyText2,
               ),
-            )
+            ),
+          
+            // GestureDetector(
+            //   child: Text("Pick from map"),
+            //   onTap: ()async{
+            //     showDialog(context: context,
+            //     builder: (context)=>AlertDialog(
+            //       title:Text("Pick your location"),
+            //       content:GoogleMap(
+            //         initialCameraPosition: CameraPosition(target: _currentLocation??LatLng(0,0),
+            //         zoom: 15.0
+            //         ),
+            //       )
+            //     )
+            //     );
+
+            //   },
+            // )
+          ],
+        ),
+        SearchMapPlaceWidget(
+          apiKey: "AIzaSyDob9_7-QY9uasK1PX821aggOEHBXuvESk",
+          onSelected: (Place  place){
+            print(place);
+            
+          },
+        ),
+        Row(
+          children: [
+            Text("Use My Current Location"),
+            Checkbox(value: _useCurrentLocation, onChanged: (v){
+              setState(() {
+                _useCurrentLocation=v;
+              });
+            }),
           ],
         ),
         TextFormField(
@@ -344,7 +402,7 @@ class PropertyDescriptionPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 8.0),
           child: Text(
-            "${selectedProperty.name} Facilities",
+            "${widget.selectedProperty.name} Facilities",
             style: Theme.of(context).textTheme.bodyText2,
           ),
         ),
@@ -357,7 +415,7 @@ class PropertyDescriptionPage extends StatelessWidget {
             itemBuilder: (context, index) {
               return listFacilities[index]
                       .departments
-                      .contains(selectedProperty.name.toLowerCase())
+                      .contains(widget.selectedProperty.name.toLowerCase())
                   ? ConditionalSwitch.single<dynamic>(
                       context: context,
                       valueBuilder: (BuildContext context) =>
