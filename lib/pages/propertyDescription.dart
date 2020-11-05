@@ -33,13 +33,10 @@ class PropertyDescriptionPage extends StatefulWidget {
 
 class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
   final _formkey = GlobalKey<FormState>();
-  // int phoneCount = 1;
-  // int index = 1;
   List<File> imageFile = [];
   TextEditingController _priceController = TextEditingController();
   List<TextEditingController> _mobileController = [];
   var isPhotoUploadError = false;
-
   void togglePhotoUploadError(bool val) {
     isPhotoUploadError = val;
   }
@@ -48,15 +45,8 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
     imageFile = imgFile;
   }
 
-  bool firstLoad = true;
-
   @override
   Widget build(BuildContext context) {
-    // if (firstLoad) {
-    //   // to add controller for the first time in only first build
-    //   _mobileController.add(TextEditingController());
-    //   firstLoad = false;
-    // }
     final selectedPropertyTitle = widget.selectedProperty.name.toUpperCase();
     Size deviceSize = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -107,22 +97,6 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                         SizedBox(
                           height: 20,
                         ),
-                        // Builder(
-                        //   builder: (context) {
-                        //     for (var i = 1; i < phoneCount; i++) {
-                        //       return _buildContactInformation(context);
-                        //     }
-                        //   },
-                        // ),
-                        // (phoneCount== i)?
-
-                        // for (var i = 0; i < _mobileController.length; i++)
-                        //   Builder(
-                        //     builder: (context) {
-                        //       return _buildContactInformation(
-                        //           context, _mobileController[i], i + 1);
-                        //     },
-                        //   ),
                         ContactInfo(
                           mobControllers: _mobileController,
                         ),
@@ -141,6 +115,8 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                               if (_formkey.currentState.validate() &&
                                   !isPhotoUploadError) {
                                 Map<String, dynamic> uploadJson = {};
+                                uploadJson["property_type"] =
+                                    widget.selectedProperty.name;
                                 uploadJson["images"] = imageFile.map(
                                     (file) async => http.MultipartFile.fromPath(
                                         "image", file.path));
@@ -148,6 +124,11 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                                     .map((controller) => controller.text)
                                     .toList();
                                 uploadJson["price"] = _priceController.text;
+                                uploadJson["facilities"] = null;
+
+                                var formData = FormData.fromMap(uploadJson);
+
+                                // put the bloc request here//
                               }
                               print("hello");
                             },
@@ -195,9 +176,7 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
       ),
       TextFormField(
         controller: _priceController,
-        // key: _formkey,
         maxLines: 1,
-        // validator: (val) => validatePrice(val),
         validator: (inputValue) {
           if (inputValue.length == 0) {
             return "Price is required";
@@ -276,15 +255,7 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
             curveType: CurveType.none,
             color: baseColor,
             child: Container(
-              // width: 80,
-              // height: 70,
               alignment: Alignment.center,
-              // child: Image.network(
-              //   homeItem.icon,
-              //   fit: BoxFit.fill,
-              //   height: 60,
-              //   width: 60,
-              // ),
               child: Image.asset(
                 "assets/images/brandlogo.png",
                 fit: BoxFit.fill,
