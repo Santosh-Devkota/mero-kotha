@@ -9,7 +9,7 @@ import '../conf.dart';
 
 class PropertySelectionPage extends StatelessWidget {
   final String nextRoute = "/property_description";
-  final _key = GlobalKey();
+  // final _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -19,10 +19,10 @@ class PropertySelectionPage extends StatelessWidget {
       ),
       child: Scaffold(
         drawer: CustomDrawer(),
-        key: _key,
+        // key: _key,
         appBar: MyAppbar(
           preferredSize: Size.fromHeight(60.0),
-          scaffoldKey: _key,
+          // scaffoldKey: _key,
         ),
         body: Container(
           width: deviceSize.width,

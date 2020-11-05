@@ -13,7 +13,12 @@ import '../conf.dart';
 
 class ImageUpload extends StatefulWidget {
   final Function onImageSelected;
-  ImageUpload({this.onImageSelected});
+  final Function changePhotoUploadError;
+  final photoUploadError;
+  ImageUpload(
+      {this.onImageSelected,
+      this.changePhotoUploadError,
+      this.photoUploadError});
   @override
   _ImageUploadState createState() => _ImageUploadState();
 }
@@ -30,7 +35,7 @@ class _ImageUploadState extends State<ImageUpload> {
         ? GestureDetector(
             onTap: () async {
               try {
-                var resultList = await MultiImagePicker.pickImages(
+                assetArray = await MultiImagePicker.pickImages(
                   maxImages: 10,
                   enableCamera: true,
                   selectedAssets: images,
@@ -44,18 +49,20 @@ class _ImageUploadState extends State<ImageUpload> {
                       selectCircleStrokeColor: "#193566",
                       statusBarColor: "#193566"),
                 );
-                if (resultList != null) {
-                  assetArray = resultList;
-                  resultList.forEach((imageAsset) async {
+                if (assetArray != null) {
+                  assetArray.forEach((imageAsset) async {
                     final filePath = await FlutterAbsolutePath.getAbsolutePath(
                         imageAsset.identifier);
                     File tempFile = File(filePath);
                     if (tempFile.existsSync()) {
                       _pickedImages.add(tempFile);
+                      widget.onImageSelected(_pickedImages);
+                      setState(() {
+                        widget.changePhotoUploadError(false);
+                      });
                     }
                   });
                 }
-                setState(() {});
               } catch (e) {
                 var error = e.toString();
               }
@@ -90,10 +97,14 @@ class _ImageUploadState extends State<ImageUpload> {
                           ),
                         ),
                         Text(
-                          "Upload Photos",
+                          widget.photoUploadError
+                              ? "Photo required!"
+                              : "Upload Photos",
                           style: GoogleFonts.roboto(
                               fontSize: 16,
-                              color: Color(0xFF193566),
+                              color: widget.photoUploadError
+                                  ? Colors.red
+                                  : Color(0xFF193566),
                               letterSpacing: 1,
                               fontWeight: FontWeight.w500),
                         ),
@@ -138,6 +149,7 @@ class _ImageUploadState extends State<ImageUpload> {
                                 onPressed: () => setState(() {
                                   assetArray.removeAt(index);
                                   _pickedImages.removeAt(index);
+                                  widget.onImageSelected(_pickedImages);
                                 }),
                               ),
                             ],
@@ -186,6 +198,7 @@ class _ImageUploadState extends State<ImageUpload> {
                               if (tempFile.existsSync()) {
                                 _pickedImages.add(tempFile);
                               }
+                              widget.onImageSelected(_pickedImages);
                             });
                           }
                           setState(() {});

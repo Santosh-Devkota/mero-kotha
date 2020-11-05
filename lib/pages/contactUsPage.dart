@@ -6,7 +6,7 @@ import 'package:mero_kotha/widgets/customDrawer.dart';
 import '../conf.dart';
 
 class ContactUsPage extends StatelessWidget {
-  final _key = GlobalKey();
+  // final _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,10 @@ class ContactUsPage extends StatelessWidget {
       ),
       child: Scaffold(
         drawer: CustomDrawer(),
-        key: _key,
+        // key: _key,
         appBar: MyAppbar(
           preferredSize: Size.fromHeight(60.0),
-          scaffoldKey: _key,
+          // scaffoldKey: _key,
         ),
         body: Center(
           child: Text("Contact Us Page!!"),

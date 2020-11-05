@@ -11,7 +11,7 @@ class MyRentPage extends StatefulWidget {
 }
 
 class _MyRentPageState extends State<MyRentPage> {
-  GlobalKey<ScaffoldState> _key = GlobalKey();
+  // GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -21,10 +21,10 @@ class _MyRentPageState extends State<MyRentPage> {
       ),
       child: Scaffold(
         drawer: CustomDrawer(),
-        key: _key,
+        // key: _key,
         appBar: MyAppbar(
           preferredSize: Size.fromHeight(60.0),
-          scaffoldKey: _key,
+          // scaffoldKey: _key,
         ),
         body: SingleChildScrollView(
           child: Text(

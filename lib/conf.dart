@@ -85,6 +85,7 @@ List<Map<String, dynamic>> roomFacilities = [
   {"title": "wifi", "icon": Icon(Icons.wifi)},
   {"title": "wifi", "icon": Icon(Icons.wifi)}
 ];
+const maxMobileNumbers = 3;
 Color baseColor = Color(0xFFECF0F3);
 Color backgroundColor = Color(0xFF193566);
 double appBarHeight = 60.0;

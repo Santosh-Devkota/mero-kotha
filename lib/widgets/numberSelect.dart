@@ -10,7 +10,6 @@ class NumberSelect extends StatefulWidget {
 }
 
 class _NumberSelectState extends State<NumberSelect> {
-  int selectedIndex = 0;
   List<String> numbers = ["1", "2", "3", "4", "5", "6+"];
   @override
   Widget build(BuildContext context) {
@@ -39,12 +38,14 @@ class _NumberSelectState extends State<NumberSelect> {
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
                 setState(() {
-                  selectedIndex = index;
+                  widget.facility.selectedIndex = index;
                 });
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: (index == selectedIndex) ? backgroundColor : baseColor,
+                  color: (index == widget.facility.selectedIndex)
+                      ? backgroundColor
+                      : baseColor,
                   border: Border.all(
                     width: 1.0,
                     color: backgroundColor,
@@ -56,7 +57,7 @@ class _NumberSelectState extends State<NumberSelect> {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Text(
                     numbers[index],
-                    style: (index == selectedIndex)
+                    style: (index == widget.facility.selectedIndex)
                         ? Theme.of(context)
                             .textTheme
                             .bodyText1

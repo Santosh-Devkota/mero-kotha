@@ -17,7 +17,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool passwordVisible = true;
-  GlobalKey<ScaffoldState> _key = GlobalKey();
+  // GlobalKey<ScaffoldState> _key = GlobalKey();
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -35,10 +35,10 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       child: Scaffold(
         drawer: CustomDrawer(),
-        key: _key,
+        // key: _key,
         appBar: MyAppbar(
           preferredSize: Size.fromHeight(appBarHeight),
-          scaffoldKey: _key,
+          // scaffoldKey: _key,
           appbarText: "Register",
         ),
         body: SingleChildScrollView(

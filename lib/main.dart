@@ -59,12 +59,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final String nextRoute = "/property_search";
-  GlobalKey<ScaffoldState> _key = GlobalKey();
+  // GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        key: _key,
+        // key: _key,
         drawer: CustomDrawer(),
         backgroundColor: baseColor,
         body: Column(
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(Icons.menu),
                   iconSize: 35.0,
                   onPressed: () {
-                    _key.currentState.openDrawer();
+                    Scaffold.of(context).openDrawer();
                   },
                 ),
                 //  color: baseColor,

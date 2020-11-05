@@ -19,7 +19,7 @@ class LoginSigninPage extends StatefulWidget {
 
 class _LoginSigninPageState extends State<LoginSigninPage> {
   bool passwordVisible = true;
-  GlobalKey<ScaffoldState> _key = GlobalKey();
+  // GlobalKey<ScaffoldState> _key = GlobalKey();
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -35,10 +35,10 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
       ),
       child: Scaffold(
         drawer: CustomDrawer(),
-        key: _key,
+        // key: _key,
         appBar: MyAppbar(
           preferredSize: Size.fromHeight(appBarHeight),
-          scaffoldKey: _key,
+          // scaffoldKey: _key,
           appbarText: "Login",
         ),
         body: SingleChildScrollView(
@@ -66,7 +66,6 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                     onTap: () async {
                       final facebookLogin = FacebookLogin();
                       final result = await facebookLogin.logIn(["email"]);
-
                       switch (result.status) {
                         case FacebookLoginStatus.loggedIn:
                           BlocProvider.of<AuthBloc>(context)

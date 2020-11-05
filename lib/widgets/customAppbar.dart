@@ -76,25 +76,27 @@ class _MyAppbarState extends State<MyAppbar> {
                       fit: BoxFit.contain,
                     ),
                   ),
-            InkWell(
-              onTap: () {
-                (widget.scaffoldKey).currentState.openDrawer();
-              },
-              child: Container(
-                margin: EdgeInsets.only(right: 15),
-                child: ClayContainer(
-                  borderRadius: 5,
-                  color: baseColor,
-                  depth: 200,
-                  spread: 2,
-                  // height: 35,
-                  // width: 35,
-                  child: Padding(
-                    padding: EdgeInsets.all(3),
-                    child: Icon(
-                      Icons.menu,
-                      color: backgroundColor,
-                      size: 30,
+            Builder(
+              builder: (ctx) => InkWell(
+                onTap: () {
+                  Scaffold.of(ctx).openDrawer();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: 15),
+                  child: ClayContainer(
+                    borderRadius: 5,
+                    color: baseColor,
+                    depth: 200,
+                    spread: 2,
+                    // height: 35,
+                    // width: 35,
+                    child: Padding(
+                      padding: EdgeInsets.all(3),
+                      child: Icon(
+                        Icons.menu,
+                        color: backgroundColor,
+                        size: 30,
+                      ),
                     ),
                   ),
                 ),

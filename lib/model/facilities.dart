@@ -6,5 +6,6 @@ class Facilities {
   Icon icon;
   dynamic value;
   List<String> departments;
+  int selectedIndex = 0;
   Facilities({this.name, this.icon, this.value, this.departments});
 }
