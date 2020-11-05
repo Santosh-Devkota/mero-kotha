@@ -10,6 +10,7 @@ import 'package:mero_kotha/widgets/customAppbar.dart';
 import 'package:mero_kotha/widgets/customDrawer.dart';
 import 'package:mero_kotha/widgets/illustrativeLogo.dart';
 import 'package:mero_kotha/widgets/login_create_button.dart';
+import '../Bloc/authbloc.dart';
 import '../conf.dart';
 
 class LoginSigninPage extends StatefulWidget {
@@ -185,11 +186,8 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                       Scaffold.of(context).showSnackBar(SnackBar(
                         content: Text("Trying.."),
                       ));
-                    } else if (state is AuthLoggedInState) {
-                      Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text(state.user.email),
-                        backgroundColor: Colors.green,
-                      ));
+                    } else if (state is AuthSuccessState) {
+                      
                       Navigator.of(context).pushNamed("/property_selection");
                     } else if (state is AuthFailedState) {
                       Scaffold.of(context).showSnackBar(SnackBar(

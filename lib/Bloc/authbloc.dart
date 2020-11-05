@@ -98,6 +98,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
           user.email = response.data["email"];
           user.name = response.data["name"];
           user.token = response.data["token"];
+           yield AuthSuccessState();
           yield AuthLoggedInState(user: user);
           await storage.write(key: "email", value: user.email);
           await storage.write(key: "token", value: user.token);
@@ -123,6 +124,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
           user.email = response.data["email"];
           user.name = response.data["name"];
           user.token = response.data["token"];
+          yield AuthSuccessState();
           yield AuthLoggedInState(user: user);
           await storage.write(key: "email", value: user.email);
           await storage.write(key: "token", value: user.token);
