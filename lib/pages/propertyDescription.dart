@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:mero_kotha/model/department.dart';
+import 'package:mero_kotha/model/facilities.dart';
 import 'package:mero_kotha/mykeys.dart';
 import 'package:mero_kotha/widgets/boolSelect.dart';
 import 'package:mero_kotha/widgets/contactInfo.dart';
@@ -40,6 +41,10 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
   void togglePhotoUploadError(bool val) {
     isPhotoUploadError = val;
   }
+
+  // void toogleFacilitiesCheckBox(Facilities facility) {
+  //   facility.value = !facility.value;
+  // }
 
   void setPickedFile(List<File> imgFile) {
     imageFile = imgFile;
@@ -107,6 +112,7 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                           alignment: Alignment.center,
                           child: InkWell(
                             onTap: () async {
+                              print(listFacilities);
                               if (imageFile.length == 0) {
                                 setState(() {
                                   isPhotoUploadError = true;
@@ -115,23 +121,38 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                               if (_formkey.currentState.validate() &&
                                   !isPhotoUploadError) {
                                 Map<String, dynamic> uploadJson = {};
+                              
+                                    listFacilities.map((facility) {
+                                  switch (facility.runtimeType) {
+                                    case bool:
+                                      return {
+                                     uploadJson[facility.name]: facility.value,
+                                      };
+                                      break;
+                                    case int:
+                                      return {
+                                      uploadJson[facility.name]
+                                        : facility.selectedIndex,
+                                      };
+                                    default:
+                                      return null;
+                                  }
+                                });
+
                                 uploadJson["property_type"] =
                                     widget.selectedProperty.name;
-                                uploadJson["photos"] = imageFile.map(
+                                uploadJson["images"] = imageFile.map(
                                     (file) async => http.MultipartFile.fromPath(
                                         "image", file.path));
-                                uploadJson["phone"] = _mobileController
+                                uploadJson["mobiles"] = _mobileController
                                     .map((controller) => controller.text)
                                     .toList();
                                 uploadJson["price"] = _priceController.text;
-                                uploadJson["facilities"] = null;
-                                print(listFacilities);
-                                
-
                                 var formData = FormData.fromMap(uploadJson);
 
                                 // put the bloc request here//
                               }
+                            
                             //  print("hello");
                             },
                             child: ClayContainer(

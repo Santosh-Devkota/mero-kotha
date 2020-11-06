@@ -4,13 +4,15 @@ import 'package:mero_kotha/conf.dart';
 class CustomCheckbox extends StatefulWidget {
   final int index;
   CustomCheckbox(this.index);
+  // final checkBoxVal;
+  // final toogleCheckBox;
+  // CustomCheckbox(this.checkBoxVal, this.toogleCheckBox);
   @override
   _CustomCheckboxState createState() => _CustomCheckboxState();
 }
 
 class _CustomCheckboxState extends State<CustomCheckbox> {
   bool value = false;
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -18,7 +20,8 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         setState(() {
           value=!value;
           listFacilities[widget.index].value=value;
-    
+
+          // widget.toogleCheckBox();
         });
       },
       // child: Container(
@@ -61,7 +64,8 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
               //     size: 20.0,
               //     color: Colors.blue,
               //   ),
-              : Container()),
+              : Container()
+              ),
     );
   }
 }
