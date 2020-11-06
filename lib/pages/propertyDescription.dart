@@ -117,14 +117,15 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                                 Map<String, dynamic> uploadJson = {};
                                 uploadJson["property_type"] =
                                     widget.selectedProperty.name;
-                                uploadJson["images"] = imageFile.map(
+                                uploadJson["photos"] = imageFile.map(
                                     (file) async => http.MultipartFile.fromPath(
                                         "image", file.path));
-                                uploadJson["mobiles"] = _mobileController
+                                uploadJson["phone"] = _mobileController
                                     .map((controller) => controller.text)
                                     .toList();
                                 uploadJson["price"] = _priceController.text;
                                 uploadJson["facilities"] = null;
+                                print(listFacilities);
 
                                 var formData = FormData.fromMap(uploadJson);
 

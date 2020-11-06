@@ -14,7 +14,7 @@ class BoolSelect extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          CustomCheckbox(),
+          CustomCheckbox(index),
           SizedBox(
             width: 10,
           ),
