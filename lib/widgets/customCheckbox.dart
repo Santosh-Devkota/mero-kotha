@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mero_kotha/conf.dart';
 
 class CustomCheckbox extends StatefulWidget {
-  final checkBoxVal;
-  final toogleCheckBox;
-  CustomCheckbox(this.checkBoxVal, this.toogleCheckBox);
+  // final checkBoxVal;
+  // final toogleCheckBox;
+  // CustomCheckbox(this.checkBoxVal, this.toogleCheckBox);
   @override
   _CustomCheckboxState createState() => _CustomCheckboxState();
 }
@@ -16,7 +16,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
     return InkWell(
       onTap: () {
         setState(() {
-          widget.toogleCheckBox();
+          // widget.toogleCheckBox();
         });
       },
       // child: Container(

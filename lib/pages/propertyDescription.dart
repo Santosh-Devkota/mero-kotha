@@ -138,6 +138,7 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                                       return null;
                                   }
                                 }).toList();
+
                                 uploadJson["property_type"] =
                                     widget.selectedProperty.name;
                                 uploadJson["images"] = imageFile.map(
@@ -148,7 +149,6 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                                     .toList();
                                 uploadJson["price"] = _priceController.text;
                                 uploadJson["facilities"] = facilitiesMap;
-
                                 var formData = FormData.fromMap(uploadJson);
 
                                 // put the bloc request here//
