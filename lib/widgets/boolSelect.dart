@@ -7,14 +7,17 @@ import 'package:mero_kotha/widgets/customCheckbox.dart';
 class BoolSelect extends StatelessWidget {
   final index;
   final Facilities propertyFacility;
-  BoolSelect({this.index, this.propertyFacility});
+  final Function toogleCheckBox;
+  BoolSelect({this.index, this.propertyFacility, this.toogleCheckBox});
+
+  // var checkBoxVal = propertyFacility.value;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          CustomCheckbox(),
+          CustomCheckbox(propertyFacility.value, toogleCheckBox),
           SizedBox(
             width: 10,
           ),

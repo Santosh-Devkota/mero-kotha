@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:mero_kotha/model/department.dart';
+import 'package:mero_kotha/model/facilities.dart';
 import 'package:mero_kotha/mykeys.dart';
 import 'package:mero_kotha/widgets/boolSelect.dart';
 import 'package:mero_kotha/widgets/contactInfo.dart';
@@ -40,6 +41,10 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
   void togglePhotoUploadError(bool val) {
     isPhotoUploadError = val;
   }
+
+  // void toogleFacilitiesCheckBox(Facilities facility) {
+  //   facility.value = !facility.value;
+  // }
 
   void setPickedFile(List<File> imgFile) {
     imageFile = imgFile;
@@ -115,6 +120,24 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                               if (_formkey.currentState.validate() &&
                                   !isPhotoUploadError) {
                                 Map<String, dynamic> uploadJson = {};
+                                List<Map<String, dynamic>> facilitiesMap =
+                                    listFacilities.map((facility) {
+                                  switch (facility.runtimeType) {
+                                    case bool:
+                                      return {
+                                        "name": facility.name,
+                                        "value": facility.value,
+                                      };
+                                      break;
+                                    case int:
+                                      return {
+                                        "name": facility.name,
+                                        "index": facility.selectedIndex,
+                                      };
+                                    default:
+                                      return null;
+                                  }
+                                }).toList();
                                 uploadJson["property_type"] =
                                     widget.selectedProperty.name;
                                 uploadJson["images"] = imageFile.map(
@@ -124,7 +147,7 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                                     .map((controller) => controller.text)
                                     .toList();
                                 uploadJson["price"] = _priceController.text;
-                                uploadJson["facilities"] = null;
+                                uploadJson["facilities"] = facilitiesMap;
 
                                 var formData = FormData.fromMap(uploadJson);
 
