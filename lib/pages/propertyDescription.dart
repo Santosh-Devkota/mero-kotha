@@ -120,22 +120,29 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                               if (_formkey.currentState.validate() &&
                                   !isPhotoUploadError) {
                                 Map<String, dynamic> uploadJson = {};
+
                                 List<Map<String, dynamic>> facilitiesMap =
                                     listFacilities.map((facility) {
-                                  switch (facility.runtimeType) {
-                                    case bool:
-                                      return {
-                                        "name": facility.name,
-                                        "value": facility.value,
-                                      };
-                                      break;
-                                    case int:
-                                      return {
-                                        "name": facility.name,
-                                        "index": facility.selectedIndex,
-                                      };
-                                    default:
-                                      return null;
+                                  if (listFacilities[
+                                          listFacilities.indexOf(facility)]
+                                      .departments
+                                      .contains(widget.selectedProperty.name
+                                          .toLowerCase())) {
+                                    switch (facility.runtimeType) {
+                                      case bool:
+                                        return {
+                                          "name": facility.name,
+                                          "value": facility.value,
+                                        };
+                                        break;
+                                      case int:
+                                        return {
+                                          "name": facility.name,
+                                          "index": facility.selectedIndex,
+                                        };
+                                      default:
+                                        return null;
+                                    }
                                   }
                                 }).toList();
 
