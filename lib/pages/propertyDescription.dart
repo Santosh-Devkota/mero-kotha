@@ -126,12 +126,13 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                                 uploadJson["price"] = _priceController.text;
                                 uploadJson["facilities"] = null;
                                 print(listFacilities);
+                                
 
                                 var formData = FormData.fromMap(uploadJson);
 
                                 // put the bloc request here//
                               }
-                              print("hello");
+                            //  print("hello");
                             },
                             child: ClayContainer(
                               spread: 1,
