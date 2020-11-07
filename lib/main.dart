@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/Bloc/home_depart_bloc.dart';
+import 'package:mero_kotha/Bloc/propertybloc.dart';
 import 'package:mero_kotha/Bloc/room_slider_bloc.dart';
 import 'package:mero_kotha/widgets/customDrawer.dart';
 import 'package:mero_kotha/widgets/homeCategories.dart';
@@ -20,6 +21,9 @@ void main() => runApp(MultiBlocProvider(
           ),
           BlocProvider<AuthBloc>(
             create: (_) => AuthBloc(AuthNotLoggedInState()),
+          ),
+          BlocProvider<PropertyBloc>(
+            create: (_) => PropertyBloc(ProperyInitialState()),
           )
         ],
         child: MaterialApp(

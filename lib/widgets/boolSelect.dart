@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mero_kotha/conf.dart';
 import 'package:mero_kotha/model/facilities.dart';
 import 'package:mero_kotha/widgets/customCheckbox.dart';
-
 class BoolSelect extends StatelessWidget {
   final index;
   final Facilities propertyFacility;
