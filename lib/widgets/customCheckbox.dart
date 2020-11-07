@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mero_kotha/conf.dart';
 
 class CustomCheckbox extends StatefulWidget {
+  final int index;
+  CustomCheckbox(this.index);
   // final checkBoxVal;
   // final toogleCheckBox;
   // CustomCheckbox(this.checkBoxVal, this.toogleCheckBox);
@@ -10,12 +12,15 @@ class CustomCheckbox extends StatefulWidget {
 }
 
 class _CustomCheckboxState extends State<CustomCheckbox> {
-  // bool value = false;
+  bool value = false;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         setState(() {
+          value=!value;
+          listFacilities[widget.index].value=value;
+
           // widget.toogleCheckBox();
         });
       },
@@ -48,7 +53,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
               ),
               color: backgroundColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(5)),
-          child: false
+          child: value
               ? Icon(
                   Icons.check,
                   size: 20.0,
@@ -59,7 +64,8 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
               //     size: 20.0,
               //     color: Colors.blue,
               //   ),
-              : Container()),
+              : Container()
+              ),
     );
   }
 }

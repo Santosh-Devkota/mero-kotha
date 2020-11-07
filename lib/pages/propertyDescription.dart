@@ -120,31 +120,23 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                               if (_formkey.currentState.validate() &&
                                   !isPhotoUploadError) {
                                 Map<String, dynamic> uploadJson = {};
-
-                                List<Map<String, dynamic>> facilitiesMap =
-                                    listFacilities.map((facility) {
-                                  if (listFacilities[
-                                          listFacilities.indexOf(facility)]
-                                      .departments
-                                      .contains(widget.selectedProperty.name
-                                          .toLowerCase())) {
-                                    switch (facility.runtimeType) {
-                                      case bool:
-                                        return {
-                                          "name": facility.name,
-                                          "value": facility.value,
-                                        };
-                                        break;
-                                      case int:
-                                        return {
-                                          "name": facility.name,
-                                          "index": facility.selectedIndex,
-                                        };
-                                      default:
-                                        return null;
-                                    }
+                                listFacilities.map((facility) {
+                                  switch (facility.runtimeType) {
+                                    case bool:
+                                      return {
+                                        uploadJson[facility.name]:
+                                            facility.value,
+                                      };
+                                      break;
+                                    case int:
+                                      return {
+                                        uploadJson[facility.name]:
+                                            facility.selectedIndex,
+                                      };
+                                    default:
+                                      return null;
                                   }
-                                }).toList();
+                                });
 
                                 uploadJson["property_type"] =
                                     widget.selectedProperty.name;
@@ -155,12 +147,12 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                                     .map((controller) => controller.text)
                                     .toList();
                                 uploadJson["price"] = _priceController.text;
-                                uploadJson["facilities"] = facilitiesMap;
                                 var formData = FormData.fromMap(uploadJson);
 
                                 // put the bloc request here//
                               }
-                              print("hello");
+
+                              //  print("hello");
                             },
                             child: ClayContainer(
                               spread: 1,
