@@ -93,16 +93,19 @@ const imageUrl = "http://45.76.147.177:8080";
 List<Facilities> listFacilities = [
   Facilities(
       name: "Wifi",
+      modelName: "hasInternet",
       icon: Icon(Icons.wifi),
       value: false,
       departments: ["room", "shoooter", "hostels"]),
   Facilities(
       name: "Parking",
+      modelName: "hasParking",
       icon: Icon(Icons.local_parking),
       value: false,
       departments: ["room", "hostels"]),
   Facilities(
       name: "Bed Rooms",
+      modelName: "numberOfRooms",
       icon: Icon(
         Icons.branding_watermark,
       ),
@@ -110,6 +113,7 @@ List<Facilities> listFacilities = [
       departments: ["shoooter"]),
   Facilities(
       name: "Facing",
+      modelName: "facing",
       icon: Icon(Icons.directions),
       value: ShutterDirection.East,
       departments: ["shoooter"]),

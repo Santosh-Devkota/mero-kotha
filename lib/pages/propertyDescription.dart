@@ -1,12 +1,16 @@
-import 'dart:io';
 
+import 'dart:io';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
+import 'package:mero_kotha/Bloc/propertybloc.dart';
 import 'package:mero_kotha/model/department.dart';
 import 'package:mero_kotha/model/facilities.dart';
 import 'package:mero_kotha/mykeys.dart';
@@ -41,15 +45,22 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
   void togglePhotoUploadError(bool val) {
     isPhotoUploadError = val;
   }
-
-  // void toogleFacilitiesCheckBox(Facilities facility) {
-  //   facility.value = !facility.value;
-  // }
-
   void setPickedFile(List<File> imgFile) {
     imageFile = imgFile;
   }
-
+  @override
+void initState(){
+  super.initState();
+  getLocation();
+}
+Position _currentLocation;
+void getLocation()async{
+  Position clocation=await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+  setState(() {
+    _currentLocation=clocation;
+  });
+}
+bool _useCurrent=false;
   @override
   Widget build(BuildContext context) {
     final selectedPropertyTitle = widget.selectedProperty.name.toUpperCase();
@@ -90,6 +101,18 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                         SizedBox(
                           height: 20,
                         ),
+                        Container(
+                          child: Row(
+                            children:[
+                              Checkbox(value: _useCurrent, onChanged: (val){
+                                setState(() {
+                                  _useCurrent=val;
+                                });
+                              }),
+                              Text("Use my current location")
+                            ]
+                          ),
+                        ),
                         _buildLocationInformation(context),
                         SizedBox(
                           height: 20,
@@ -120,6 +143,7 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                               if (_formkey.currentState.validate() &&
                                   !isPhotoUploadError) {
                                 Map<String, dynamic> uploadJson = {};
+<<<<<<< HEAD
                                 listFacilities.map((facility) {
                                   switch (facility.runtimeType) {
                                     case bool:
@@ -135,19 +159,34 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                                       };
                                     default:
                                       return null;
+=======
+
+                                for(var facility in listFacilities){
+                                  if (facility.departments.contains(widget
+                                      .selectedProperty.name
+                                      .toLowerCase())) {
+                                    uploadJson[facility.modelName] = facility.value;
+>>>>>>> 5e4e49388e3c0623a52d7a4e954d975488d51a60
                                   }
-                                });
+                                }
 
                                 uploadJson["property_type"] =
                                     widget.selectedProperty.name;
-                                uploadJson["images"] = imageFile.map(
-                                    (file) async => http.MultipartFile.fromPath(
-                                        "image", file.path));
-                                uploadJson["mobiles"] = _mobileController
+                                uploadJson["photos"] = imageFile.map(
+                                    (file) async =>await http.MultipartFile.fromPath(
+                                        "photos", file.path)).toList();
+                                uploadJson["phone"] = _mobileController
                                     .map((controller) => controller.text)
                                     .toList();
                                 uploadJson["price"] = _priceController.text;
-                                var formData = FormData.fromMap(uploadJson);
+                                uploadJson["location"]={
+                                  "latitude":_currentLocation.latitude,
+                                  "longitude":_currentLocation.longitude
+                                };
+                                var formData =  FormData.fromMap(uploadJson);
+                                BlocProvider.of<PropertyBloc>(context).add(PropertyAddEvent(
+                                  formData,widget.selectedProperty.id
+                                ));
 
                                 // put the bloc request here//
                               }
@@ -298,27 +337,70 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
       ],
     );
   }
+  GoogleMapController _mapController;
 
   Widget _buildLocationInformation(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 0),
-              child: Icon(
-                Icons.add_location,
-                size: 22,
+        GestureDetector(
+          onTap: (){
+            showDialog(context: context,
+            child: AlertDialog(
+                          content: GoogleMap(
+                      mapType: MapType.normal,
+                      onTap: (LatLng lang){
+                        setState(() {
+                          _currentLocation=Position(longitude:lang.longitude,latitude:lang.latitude);
+                        });
+                      },
+                      
+                      onMapCreated: (GoogleMapController controller){
+                        setState(() {
+                          _mapController=controller;
+                        });
+                      },  
+                      initialCameraPosition: CameraPosition(
+                      target: LatLng(_currentLocation.latitude,_currentLocation.longitude),
+                      zoom: 140.0,
+                      
+                    )),
+                    actions: [
+                       Container(
+                    height: 50.0,
+                    width: 200.0,
+                    child: RaisedButton(
+                      child: Text("Set Location"),
+                      color: Theme.of(context).primaryColor,
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                    ],
+                
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Add Location",
-                style: Theme.of(context).textTheme.bodyText2,
+            
+            
+            );
+          },
+                  child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 0),
+                child: Icon(
+                  Icons.add_location,
+                  size: 22,
+                ),
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "Add Location",
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              )
+            ],
+          ),
         ),
         TextFormField(
           maxLines: 1,
