@@ -17,6 +17,11 @@ class PropertyAddEvent extends ProperyEvents {
   PropertyAddEvent(this.data,this.depId);
 }
 class ProperyInitialState extends PropertyStates{}
+class ProperyAddedState extends PropertyStates{}
+class PropertyAddErrorState extends PropertyStates{
+  final String message;
+  PropertyAddErrorState(this.message);
+}
 
 class PropertyBloc extends Bloc<ProperyEvents, PropertyStates> {
   PropertyBloc(PropertyStates initialState) : super(initialState);
@@ -24,6 +29,7 @@ class PropertyBloc extends Bloc<ProperyEvents, PropertyStates> {
 
   @override
   Stream<PropertyStates> mapEventToState(ProperyEvents event) async* {
+     yield PropertyAddingState();
     var token = await starage.read(key: "token");
     Dio dio = Dio(BaseOptions(
         baseUrl: baseUrl,
@@ -34,11 +40,17 @@ class PropertyBloc extends Bloc<ProperyEvents, PropertyStates> {
         var response=await dio.post("properties/addnew/${event.depId}",
         data: event.data
         );
-        print(response);
+        if(response.statusCode==200){
+        yield  ProperyAddedState();
+        }else{
+          yield PropertyAddErrorState(response.data["message"]??"Server Error try again!");
+        }
 
       }
-      catch(e){}
-      yield PropertyAddingState();
+      catch(e){
+         yield PropertyAddErrorState("Network Error!");
+      }
+     
     }
   }
 }
