@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import '../conf.dart';
@@ -14,9 +12,10 @@ class PropertyAddingState extends PropertyStates {}
 class PropertyAddEvent extends ProperyEvents {
   final String depId;
   final FormData data;
-  PropertyAddEvent(this.data,this.depId);
+  PropertyAddEvent(this.data, this.depId);
 }
-class ProperyInitialState extends PropertyStates{}
+
+class ProperyInitialState extends PropertyStates {}
 
 class PropertyBloc extends Bloc<ProperyEvents, PropertyStates> {
   PropertyBloc(PropertyStates initialState) : super(initialState);
@@ -30,14 +29,11 @@ class PropertyBloc extends Bloc<ProperyEvents, PropertyStates> {
         headers: {"apiKey": apiKey, "Authorization": token},
         validateStatus: (status) => true));
     if (event is PropertyAddEvent) {
-      try{
-        var response=await dio.post("properties/addnew/${event.depId}",
-        data: event.data
-        );
+      try {
+        var response = await dio.post("properties/addnew/${event.depId}",
+            data: event.data);
         print(response);
-
-      }
-      catch(e){}
+      } catch (e) {}
       yield PropertyAddingState();
     }
   }

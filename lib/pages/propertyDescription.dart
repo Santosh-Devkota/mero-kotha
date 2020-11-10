@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:dio/dio.dart';
@@ -45,22 +44,27 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
   void togglePhotoUploadError(bool val) {
     isPhotoUploadError = val;
   }
+
   void setPickedFile(List<File> imgFile) {
     imageFile = imgFile;
   }
+
   @override
-void initState(){
-  super.initState();
-  getLocation();
-}
-Position _currentLocation;
-void getLocation()async{
-  Position clocation=await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-  setState(() {
-    _currentLocation=clocation;
-  });
-}
-bool _useCurrent=false;
+  void initState() {
+    super.initState();
+    getLocation();
+  }
+
+  Position _currentLocation;
+  void getLocation() async {
+    Position clocation = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    setState(() {
+      _currentLocation = clocation;
+    });
+  }
+
+  bool _useCurrent = false;
   @override
   Widget build(BuildContext context) {
     final selectedPropertyTitle = widget.selectedProperty.name.toUpperCase();
@@ -102,16 +106,16 @@ bool _useCurrent=false;
                           height: 20,
                         ),
                         Container(
-                          child: Row(
-                            children:[
-                              Checkbox(value: _useCurrent, onChanged: (val){
-                                setState(() {
-                                  _useCurrent=val;
-                                });
-                              }),
-                              Text("Use my current location")
-                            ]
-                          ),
+                          child: Row(children: [
+                            Checkbox(
+                                value: _useCurrent,
+                                onChanged: (val) {
+                                  setState(() {
+                                    _useCurrent = val;
+                                  });
+                                }),
+                            Text("Use my current location")
+                          ]),
                         ),
                         _buildLocationInformation(context),
                         SizedBox(
@@ -143,50 +147,35 @@ bool _useCurrent=false;
                               if (_formkey.currentState.validate() &&
                                   !isPhotoUploadError) {
                                 Map<String, dynamic> uploadJson = {};
-<<<<<<< HEAD
-                                listFacilities.map((facility) {
-                                  switch (facility.runtimeType) {
-                                    case bool:
-                                      return {
-                                        uploadJson[facility.name]:
-                                            facility.value,
-                                      };
-                                      break;
-                                    case int:
-                                      return {
-                                        uploadJson[facility.name]:
-                                            facility.selectedIndex,
-                                      };
-                                    default:
-                                      return null;
-=======
 
-                                for(var facility in listFacilities){
+                                for (var facility in listFacilities) {
                                   if (facility.departments.contains(widget
                                       .selectedProperty.name
                                       .toLowerCase())) {
-                                    uploadJson[facility.modelName] = facility.value;
->>>>>>> 5e4e49388e3c0623a52d7a4e954d975488d51a60
+                                    uploadJson[facility.modelName] =
+                                        facility.value;
                                   }
                                 }
 
                                 uploadJson["property_type"] =
                                     widget.selectedProperty.name;
-                                uploadJson["photos"] = imageFile.map(
-                                    (file) async =>await http.MultipartFile.fromPath(
-                                        "photos", file.path)).toList();
+                                uploadJson["photos"] = imageFile
+                                    .map((file) async =>
+                                        await http.MultipartFile.fromPath(
+                                            "photos", file.path))
+                                    .toList();
                                 uploadJson["phone"] = _mobileController
                                     .map((controller) => controller.text)
                                     .toList();
                                 uploadJson["price"] = _priceController.text;
-                                uploadJson["location"]={
-                                  "latitude":_currentLocation.latitude,
-                                  "longitude":_currentLocation.longitude
+                                uploadJson["location"] = {
+                                  "latitude": _currentLocation.latitude,
+                                  "longitude": _currentLocation.longitude
                                 };
-                                var formData =  FormData.fromMap(uploadJson);
-                                BlocProvider.of<PropertyBloc>(context).add(PropertyAddEvent(
-                                  formData,widget.selectedProperty.id
-                                ));
+                                var formData = FormData.fromMap(uploadJson);
+                                BlocProvider.of<PropertyBloc>(context).add(
+                                    PropertyAddEvent(
+                                        formData, widget.selectedProperty.id));
 
                                 // put the bloc request here//
                               }
@@ -337,53 +326,52 @@ bool _useCurrent=false;
       ],
     );
   }
+
   GoogleMapController _mapController;
 
   Widget _buildLocationInformation(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          onTap: (){
-            showDialog(context: context,
-            child: AlertDialog(
-                          content: GoogleMap(
-                      mapType: MapType.normal,
-                      onTap: (LatLng lang){
-                        setState(() {
-                          _currentLocation=Position(longitude:lang.longitude,latitude:lang.latitude);
-                        });
-                      },
-                      
-                      onMapCreated: (GoogleMapController controller){
-                        setState(() {
-                          _mapController=controller;
-                        });
-                      },  
-                      initialCameraPosition: CameraPosition(
-                      target: LatLng(_currentLocation.latitude,_currentLocation.longitude),
+          onTap: () {
+            showDialog(
+              context: context,
+              child: AlertDialog(
+                content: GoogleMap(
+                    mapType: MapType.normal,
+                    onTap: (LatLng lang) {
+                      setState(() {
+                        _currentLocation = Position(
+                            longitude: lang.longitude, latitude: lang.latitude);
+                      });
+                    },
+                    onMapCreated: (GoogleMapController controller) {
+                      setState(() {
+                        _mapController = controller;
+                      });
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(_currentLocation.latitude,
+                          _currentLocation.longitude),
                       zoom: 140.0,
-                      
                     )),
-                    actions: [
-                       Container(
+                actions: [
+                  Container(
                     height: 50.0,
                     width: 200.0,
                     child: RaisedButton(
                       child: Text("Set Location"),
                       color: Theme.of(context).primaryColor,
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
                   ),
-                    ],
-                
+                ],
               ),
-            
-            
             );
           },
-                  child: Row(
+          child: Row(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 0),
