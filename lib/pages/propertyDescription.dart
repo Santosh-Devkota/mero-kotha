@@ -23,6 +23,7 @@ import 'package:mero_kotha/widgets/imageUpload.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as dio;
 
 import '../conf.dart';
 
@@ -137,70 +138,105 @@ class _PropertyDescriptionPageState extends State<PropertyDescriptionPage> {
                         ),
                         Align(
                           alignment: Alignment.center,
-                          child: InkWell(
-                            onTap: () async {
-                              if (imageFile.length == 0) {
-                                setState(() {
-                                  isPhotoUploadError = true;
-                                });
+                          child: BlocConsumer<PropertyBloc, PropertyStates>(
+                            listener: (context, state) {
+                              if (state is PropertyAddingState) {
+                                Scaffold.of(context).hideCurrentSnackBar();
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  content: Text("Adding"),
+                                ));
+                              } else if (state is PropertyAddErrorState) {
+                                Scaffold.of(context).hideCurrentSnackBar();
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Colors.redAccent,
+                                  content: Text(state.message),
+                                ));
+                              } else if (state is ProperyAddedState) {
+                                Scaffold.of(context).hideCurrentSnackBar();
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Colors.greenAccent,
+                                  content: Text("Added"),
+                                ));
                               }
-                              if (_formkey.currentState.validate() &&
-                                  !isPhotoUploadError) {
-                                Map<String, dynamic> uploadJson = {};
-
-                                for (var facility in listFacilities) {
-                                  if (facility.departments.contains(widget
-                                      .selectedProperty.name
-                                      .toLowerCase())) {
-                                    uploadJson[facility.modelName] =
-                                        facility.value;
-                                  }
-                                }
-
-                                uploadJson["property_type"] =
-                                    widget.selectedProperty.name;
-                                uploadJson["photos"] = imageFile
-                                    .map((file) async =>
-                                        await http.MultipartFile.fromPath(
-                                            "photos", file.path))
-                                    .toList();
-                                uploadJson["phone"] = _mobileController
-                                    .map((controller) => controller.text)
-                                    .toList();
-                                uploadJson["price"] = _priceController.text;
-                                uploadJson["location"] = {
-                                  "latitude": _currentLocation.latitude,
-                                  "longitude": _currentLocation.longitude
-                                };
-                                var formData = FormData.fromMap(uploadJson);
-                                BlocProvider.of<PropertyBloc>(context).add(
-                                    PropertyAddEvent(
-                                        formData, widget.selectedProperty.id));
-
-                                // put the bloc request here//
-                              }
-
-                              //  print("hello");
                             },
-                            child: ClayContainer(
-                              spread: 1,
-                              depth: 100,
-                              height: 50,
-                              width: 150,
-                              curveType: CurveType.none,
-                              color: backgroundColor,
-                              child: Center(
-                                child: Text("Add",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white)),
-                              ),
-                              borderRadius: 10.0,
-                            ),
+                            builder: (_, state) {
+                              return InkWell(
+                                onTap: state is PropertyAddingState
+                                    ? null
+                                    : () async {
+                                        if (imageFile.length == 0) {
+                                          setState(() {
+                                            isPhotoUploadError = true;
+                                          });
+                                        }
+                                        if (_formkey.currentState.validate() &&
+                                            !isPhotoUploadError) {
+                                          Map<String, dynamic> uploadJson = {};
+
+                                          for (var facility in listFacilities) {
+                                            if (facility.departments.contains(
+                                                widget.selectedProperty.name
+                                                    .toLowerCase())) {
+                                              uploadJson[facility.modelName] =
+                                                  facility.value;
+                                            }
+                                          }
+
+                                          // uploadJson["photos"] = imageFile.map(
+                                          //     (file) async => http.MultipartFile.fromPath(
+                                          //         "photos", file.path)).toList();
+
+                                          List<dio.MultipartFile> formFiles =
+                                              [];
+                                          for (var f in imageFile) {
+                                            formFiles.add(
+                                                await dio.MultipartFile
+                                                    .fromFile(f.path));
+                                          }
+                                          uploadJson["images"] = formFiles[0];
+                                          uploadJson["phone"] =
+                                              _mobileController
+                                                  .map((controller) =>
+                                                      controller.text)
+                                                  .toList();
+                                          uploadJson["price"] =
+                                              _priceController.text;
+                                          uploadJson["location"] = {
+                                            "latitude":
+                                                _currentLocation.latitude,
+                                            "longitude":
+                                                _currentLocation.longitude
+                                          };
+                                          var formData =
+                                              FormData.fromMap(uploadJson);
+                                          BlocProvider.of<PropertyBloc>(context)
+                                              .add(PropertyAddEvent(formData,
+                                                  widget.selectedProperty.id));
+                                        }
+                                      },
+                                child: ClayContainer(
+                                  spread: 1,
+                                  depth: 100,
+                                  height: 50,
+                                  width: 150,
+                                  curveType: CurveType.none,
+                                  color: backgroundColor,
+                                  child: Center(
+                                    child: Text("Add",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            .copyWith(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white)),
+                                  ),
+                                  borderRadius: 10.0,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],

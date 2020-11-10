@@ -17,12 +17,20 @@ class PropertyAddEvent extends ProperyEvents {
 
 class ProperyInitialState extends PropertyStates {}
 
+class ProperyAddedState extends PropertyStates {}
+
+class PropertyAddErrorState extends PropertyStates {
+  final String message;
+  PropertyAddErrorState(this.message);
+}
+
 class PropertyBloc extends Bloc<ProperyEvents, PropertyStates> {
   PropertyBloc(PropertyStates initialState) : super(initialState);
   FlutterSecureStorage starage = new FlutterSecureStorage();
 
   @override
   Stream<PropertyStates> mapEventToState(ProperyEvents event) async* {
+    yield PropertyAddingState();
     var token = await starage.read(key: "token");
     Dio dio = Dio(BaseOptions(
         baseUrl: baseUrl,
@@ -32,9 +40,15 @@ class PropertyBloc extends Bloc<ProperyEvents, PropertyStates> {
       try {
         var response = await dio.post("properties/addnew/${event.depId}",
             data: event.data);
-        print(response);
-      } catch (e) {}
-      yield PropertyAddingState();
+        if (response.statusCode == 200) {
+          yield ProperyAddedState();
+        } else {
+          yield PropertyAddErrorState(
+              response.data["message"] ?? "Server Error try again!");
+        }
+      } catch (e) {
+        yield PropertyAddErrorState("Network Error!");
+      }
     }
   }
 }
