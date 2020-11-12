@@ -33,6 +33,7 @@ class Property {
       this.water = map["water"];
       this.size = map["size"];
       this.photos = ((map["photos"]).map((e) => (imageUrl + e))).toList();
+      // put photos map here *******
       this.phone = map["phone"];
       this.location = map["location"];
     } catch (e) {}

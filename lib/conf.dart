@@ -7,7 +7,7 @@ import 'package:mero_kotha/pages/myRent.dart';
 import 'package:mero_kotha/pages/propertyDescription.dart';
 import 'package:mero_kotha/pages/propertySelection.dart';
 import 'package:mero_kotha/pages/register.dart';
-import 'package:mero_kotha/pages/room_search.dart';
+import 'package:mero_kotha/pages/search.dart';
 import 'main.dart';
 
 class RouteGenerator {
@@ -17,9 +17,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => LoginSigninPage());
       case "/register":
         return MaterialPageRoute(builder: (context) => RegisterPage());
-      case "/room_search":
+      case "/search":
         return MaterialPageRoute(
-            builder: (context) => RoomSearch(routeSettings.arguments));
+            builder: (context) => Search(routeSettings.arguments));
       case "/myrent":
         return MaterialPageRoute(builder: (context) => MyRentPage());
       case "/contact_us":
@@ -85,10 +85,10 @@ Color baseColor = Color(0xFFECF0F3);
 Color backgroundColor = Color(0xFF193566);
 double appBarHeight = 60.0;
 const apiKey = "53465FDSFf##%#%%";
-const baseUrl = "http://192.168.1.68:8080/";
-const imageUrl = "http://192.168.1.68:8080";
-// const baseUrl = "http://45.76.147.177:8080/";
-// const imageUrl = "http://45.76.147.177:8080";
+// const baseUrl = "http://192.168.1.68:8080/"
+// const imageUrl = "http://192.168.1.68:8080"
+const baseUrl = "http://45.76.147.177:8080/";
+const imageUrl = "http://45.76.147.1778080";
 
 List<Facilities> listFacilities = [
   Facilities(
