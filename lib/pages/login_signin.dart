@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mero_kotha/Bloc/authbloc.dart';
 import 'package:mero_kotha/widgets/customAppbar.dart';
 import 'package:mero_kotha/widgets/customDrawer.dart';
@@ -110,7 +111,15 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                     height: 20,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      GoogleSignIn _googleSignIn = GoogleSignIn(
+                        scopes: [
+                          'email',
+                          'https://www.googleapis.com/auth/contacts.readonly',
+                        ],
+                      );
+                     var result= await _googleSignIn.signIn();
+                    },
                     child: ClayContainer(
                       width: 300,
                       height: 50,
@@ -187,7 +196,6 @@ class _LoginSigninPageState extends State<LoginSigninPage> {
                         content: Text("Trying.."),
                       ));
                     } else if (state is AuthSuccessState) {
-                      
                       Navigator.of(context).pushNamed("/property_selection");
                     } else if (state is AuthFailedState) {
                       Scaffold.of(context).showSnackBar(SnackBar(
