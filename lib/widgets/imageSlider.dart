@@ -56,7 +56,7 @@ class _ImageSliderState extends State<ImageSlider> {
                                 ),
                                 onTap: () {
                                   Navigator.pushNamed(context, "room-details",
-                                      arguments: property.id);
+                                      arguments: property.sId);
                                 }),
                           ],
                         ),

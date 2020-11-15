@@ -54,7 +54,7 @@ class RoomSliderBloc extends Bloc<RoomSliderEvents, RoomSliderStates> {
           // }
           response.data["data"].forEach((e) {
             if (e["isActive"]) {
-              rooms.add(Property.fromMap(e));
+              rooms.add(Property.fromJson(e));
             }
           });
           yield PremiumRoomsLoadedState(rooms);

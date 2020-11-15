@@ -87,6 +87,7 @@ double appBarHeight = 60.0;
 const apiKey = "53465FDSFf##%#%%";
 const baseUrl = "http://192.168.1.68:8080/";
 const imageUrl = "http://192.168.1.68:8080";
+const imageLink = "http://192.168.1.68:8080/";
 // const baseUrl = "http://45.76.147.177:8080/";
 // const imageUrl = "http://45.76.147.177:8080";
 

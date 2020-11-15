@@ -8,6 +8,7 @@ import 'package:mero_kotha/Bloc/room_slider_bloc.dart';
 import 'package:mero_kotha/widgets/customDrawer.dart';
 import 'package:mero_kotha/widgets/homeCategories.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'Bloc/propertiesbloc.dart';
 import 'conf.dart';
 
 void main() => runApp(MultiBlocProvider(
@@ -24,6 +25,9 @@ void main() => runApp(MultiBlocProvider(
           ),
           BlocProvider<PropertyBloc>(
             create: (_) => PropertyBloc(ProperyInitialState()),
+          ),
+           BlocProvider<PropertyDataBloc>(
+            create: (_) => PropertyDataBloc(PropertyDataInitialState()),
           )
         ],
         child: MaterialApp(
