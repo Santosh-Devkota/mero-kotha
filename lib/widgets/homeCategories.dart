@@ -45,10 +45,8 @@ class _HomeCategoriesState extends State<HomeCategories> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          var departName = depart.name.toLowerCase();
-                          if (widget.nxtPageRoute == "/property_search") {
-                            Navigator.pushNamed(
-                                context, "/${departName}_search",
+                          if (widget.nxtPageRoute == "/search") {
+                            Navigator.pushNamed(context, "/search",
                                 arguments: depart);
                           } else if (widget.nxtPageRoute ==
                               "/property_description") {

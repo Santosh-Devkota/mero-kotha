@@ -6,6 +6,7 @@ class Property {
   int size;
   List<String> photos;
   List<String> phone;
+<<<<<<< HEAD
   String sId;
   int price;
   Location location;
@@ -61,6 +62,25 @@ class Property {
     iV = json['__v'];
   }
     catch(e){}
+=======
+  String location;
+  Property.fromMap(Map<String, dynamic> map) {
+    try {
+      this.id = map["_id"];
+      this.user = map["owner"];
+      this.department = map["department"];
+      this.isActive = map["isActive"];
+      this.price = map["price"];
+      this.availableQuantity = map["available_quantity"];
+      this.hasInternet = map["hasInternet"];
+      this.water = map["water"];
+      this.size = map["size"];
+      this.photos = ((map["photos"]).map((e) => (imageUrl + e))).toList();
+      // put photos map here *******
+      this.phone = map["phone"];
+      this.location = map["location"];
+    } catch (e) {}
+>>>>>>> aaffeb04f0e05524f3e850b0a2e1130026c723e1
   }
   
 
