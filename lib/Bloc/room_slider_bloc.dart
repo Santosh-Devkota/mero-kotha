@@ -28,7 +28,7 @@ class PremiumRoomsLoadFailedState extends RoomSliderStates {}
 class RoomSliderBloc extends Bloc<RoomSliderEvents, RoomSliderStates> {
   RoomSliderBloc(RoomSliderStates initialState) : super(initialState);
 
-  List<Property> rooms;
+  List<Property> rooms=[];
   @override
   Stream<RoomSliderStates> mapEventToState(RoomSliderEvents event) async* {
     if (event is PremiumRoomsLoadEvent) {
@@ -54,7 +54,7 @@ class RoomSliderBloc extends Bloc<RoomSliderEvents, RoomSliderStates> {
           // }
           response.data["data"].forEach((e) {
             if (e["isActive"]) {
-              rooms.add(Property.fromMap(e));
+              rooms.add(Property.fromJson(e));
             }
           });
           yield PremiumRoomsLoadedState(rooms);

@@ -10,10 +10,10 @@ class Property {
   bool hasInternet;
   String water;
   int size;
-  List<String> photos;
-  List<String> phone;
+  List<String> photos=[];
+  List<String> phone=[];
   String location;
-  Property.fromMap(Map<String, dynamic> map) {
+  Property.fromJson(Map<String, dynamic> map) {
     try {
       this.id = map["_id"];
       this.user = map["owner"];
@@ -24,10 +24,16 @@ class Property {
       this.hasInternet = map["hasInternet"];
       this.water = map["water"];
       this.size = map["size"];
-      this.photos = ((map["photos"]).map((e) => (imageUrl + e))).toList();
+     
+      for(var p in map['photos']){
+        photos.add(p);
+      }
+        for(var p in map['phone']){
+        phone.add(p.toString());
+      }
       // put photos map here *******
-      this.phone = map["phone"];
-      this.location = map["location"];
+   
+     // this.location = map["location"]['latitude'];
     } catch (e) {}
   }
 }

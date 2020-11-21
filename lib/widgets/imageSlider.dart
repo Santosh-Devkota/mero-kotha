@@ -39,7 +39,6 @@ class _ImageSliderState extends State<ImageSlider> {
                     : widget.premiumProperty.length,
                 itemBuilder: (context, index) {
                   var property = widget.premiumProperty[index];
-
                   return Container(
                     height: 200.0,
                     width: deviceSize.width,
