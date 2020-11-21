@@ -39,41 +39,6 @@ class _ImageSliderState extends State<ImageSlider> {
                     : widget.premiumProperty.length,
                 itemBuilder: (context, index) {
                   var property = widget.premiumProperty[index];
-
-<<<<<<< HEAD
-                      return Container(
-                        height: 200.0,
-                        width: deviceSize.width,
-                        color: Colors.grey,
-                        child: Stack(
-                          children: <Widget>[
-                            GestureDetector(
-                                child: CachedNetworkImage(
-                                  imageUrl: property.photos[0],
-                                  fit: BoxFit.cover,
-                                  width: deviceSize.width,
-                                ),
-                                onTap: () {
-                                  Navigator.pushNamed(context, "room-details",
-                                      arguments: property.sId);
-                                }),
-                          ],
-                        ),
-                      );
-                    },
-                    options: CarouselOptions(
-                        autoPlay: false,
-                        height: 200.0,
-                        viewportFraction: 1.0,
-                        enlargeCenterPage: true,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _current = index;
-                          });
-                        }),
-                  ),
-                ],
-=======
                   return Container(
                     height: 200.0,
                     width: deviceSize.width,
@@ -104,7 +69,6 @@ class _ImageSliderState extends State<ImageSlider> {
                         _current = index;
                       });
                     }),
->>>>>>> aaffeb04f0e05524f3e850b0a2e1130026c723e1
               ),
             ],
           ),

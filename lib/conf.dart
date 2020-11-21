@@ -85,19 +85,11 @@ Color baseColor = Color(0xFFECF0F3);
 Color backgroundColor = Color(0xFF193566);
 double appBarHeight = 60.0;
 const apiKey = "53465FDSFf##%#%%";
-<<<<<<< HEAD
 const baseUrl = "http://192.168.1.68:8080/";
 const imageUrl = "http://192.168.1.68:8080";
 const imageLink = "http://192.168.1.68:8080/";
 // const baseUrl = "http://45.76.147.177:8080/";
 // const imageUrl = "http://45.76.147.177:8080";
-=======
-// const baseUrl = "http://192.168.1.68:8080/"
-// const imageUrl = "http://192.168.1.68:8080"
-const baseUrl = "http://45.76.147.177:8080/";
-const imageUrl = "http://45.76.147.1778080";
->>>>>>> aaffeb04f0e05524f3e850b0a2e1130026c723e1
-
 List<Facilities> listFacilities = [
   Facilities(
       name: "Wifi",
